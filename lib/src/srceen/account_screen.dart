@@ -57,10 +57,6 @@ class _AccountSrceenState extends State<AccountSrceen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
-                      // Padding(
-                      //   padding: EdgeInsets.all(2),
-                      //   child: Text('Bay Kor Dot',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18,)),
-                      // ),
                       
                     ],
                   ),
@@ -83,7 +79,7 @@ class _AccountSrceenState extends State<AccountSrceen> {
       ],
     );
   }
-   Widget get logoutbtn {
+  Widget get logoutbtn {
     return InkWell(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 10),
