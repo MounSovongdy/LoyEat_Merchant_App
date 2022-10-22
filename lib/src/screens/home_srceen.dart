@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:loy_eat_merchant_app/src/srceen/list_order_report_srceen.dart';
-import 'package:loy_eat_merchant_app/src/srceen/new_order_datail_screen.dart';
+import 'package:loy_eat_merchant_app/src/screens/list_order_report_srceen.dart';
+import 'package:loy_eat_merchant_app/src/screens/new_order_datail_screen.dart';
 
 class HomeSrceen extends StatefulWidget {
   const HomeSrceen({Key? key}) : super(key: key);

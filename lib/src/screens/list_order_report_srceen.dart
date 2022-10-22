@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:loy_eat_merchant_app/src/srceen/order_datail_srceen.dart';
+import 'package:loy_eat_merchant_app/src/screens/order_datail_srceen.dart';
 
 class ListOrderReportSrceen extends StatefulWidget {
   const ListOrderReportSrceen({Key? key}) : super(key: key);
