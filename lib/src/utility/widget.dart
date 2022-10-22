@@ -94,75 +94,78 @@ class AppWidget {
     );
   }
 
-  static Widget order(BuildContext context) {
-    return Container(
-      height: 80,
-      margin: const EdgeInsets.only(
-          bottom: defaultPaddin / 6, top: defaultPaddin / 6),
-      width: MediaQuery.of(context).size.width,
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(defaultPaddin / 2),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(defaultPaddin / 2),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  static Widget order({required BuildContext context, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 80,
+        margin: const EdgeInsets.only(
+            bottom: defaultPaddin / 6, top: defaultPaddin / 6),
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(defaultPaddin / 2),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(defaultPaddin / 2),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Order #: le001444b',
+                      style: AppTextStyle.headline2,
+                    ),
+                    const SizedBox(
+                      height: defaultPaddin / 2,
+                    ),
+                    Text(
+                      'Item: Hanuman Beer 500ml x1... ',
+                      style: AppTextStyle.title2,
+                    ),
+                    const Spacer(),
+                    Text(
+                      '14-Jan-22',
+                      style:
+                          AppTextStyle.title2.copyWith(color: secondGraydColor),
+                    ),
+                  ],
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Order #: le001444b',
-                    style: AppTextStyle.headline2,
+                    '3.5',
+                    style: AppTextStyle.headline1,
                   ),
-                  const SizedBox(
-                    height: defaultPaddin / 2,
-                  ),
-                  Text(
-                    'Item: Hanuman Beer 500ml x1... ',
-                    style: AppTextStyle.title2,
-                  ),
-                  const Spacer(),
-                  Text(
-                    '14-Jan-22',
-                    style:
-                        AppTextStyle.title2.copyWith(color: secondGraydColor),
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '3.5',
-                  style: AppTextStyle.headline1,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.orange.shade600.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(defaultPaddin / 2),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: defaultPaddin,
-                      vertical: defaultPaddin / 6,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade600.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(defaultPaddin / 2),
                     ),
-                    child: Text(
-                      'Panding',
-                      style: AppTextStyle.title2.copyWith(
-                        color: Colors.orange.shade600,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: defaultPaddin,
+                        vertical: defaultPaddin / 6,
+                      ),
+                      child: Text(
+                        'Panding',
+                        style: AppTextStyle.title2.copyWith(
+                          color: Colors.orange.shade600,
+                        ),
                       ),
                     ),
-                  ),
-                )
-              ],
-            )
-          ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

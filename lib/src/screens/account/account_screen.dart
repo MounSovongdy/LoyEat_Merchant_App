@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../constants/constants.dart';
 import '../../utility/button.dart';
 import '../../utility/text_style.dart';
-import '../../utility/widget.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -26,12 +25,12 @@ class AccountScreen extends StatelessWidget {
           Container(
             height: 80,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(defaultPaddin),
               color: Colors.white,
             ),
             child: Row(children: [
               Padding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(defaultPaddin / 2),
                 child: Container(
                     height: 60,
                     width: 70,
@@ -44,7 +43,7 @@ class AccountScreen extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: const EdgeInsets.all(14),
+                padding: const EdgeInsets.all(defaultPaddin),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [],
@@ -58,7 +57,7 @@ class AccountScreen extends StatelessWidget {
           Container(
             height: 300,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
+              borderRadius: BorderRadius.circular(defaultPaddin),
               color: Colors.white,
             ),
           ),

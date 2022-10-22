@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loy_eat_merchant_app/src/screens/order/order_detail_screen.dart';
 
 import '../../constants/constants.dart';
 import '../../utility/text_style.dart';
@@ -12,16 +13,24 @@ class OrderScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryGrayColor,
       appBar: getAppBar(context),
-      body: getProduct(context),
+      body: getOrder(context),
     );
   }
 
-  Widget getProduct(BuildContext context) {
+  Widget getOrder(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
       itemCount: 10,
       scrollDirection: Axis.vertical,
-      itemBuilder: (BuildContext context, index) => AppWidget.order(context),
+      itemBuilder: (BuildContext context, index) => AppWidget.order(
+        context: context,
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const OrderDetailScreen(),
+          ),
+        ),
+      ),
     );
   }
 
