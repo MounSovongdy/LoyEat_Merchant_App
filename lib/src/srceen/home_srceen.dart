@@ -1,8 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:loy_eat_merchant_app/src/srceen/list_new_order_srceen.dart';
-import 'package:loy_eat_merchant_app/src/srceen/order_datail_screen.dart';
+import 'package:loy_eat_merchant_app/src/srceen/list_order_report_srceen.dart';
+import 'package:loy_eat_merchant_app/src/srceen/new_order_datail_screen.dart';
 
 class HomeSrceen extends StatefulWidget {
   const HomeSrceen({Key? key}) : super(key: key);
@@ -69,7 +69,8 @@ class _HomeSrceenState extends State<HomeSrceen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ListSrceen()),
+                      MaterialPageRoute(
+                          builder: (context) => const ListOrderReportSrceen()),
                     );
                   }),
               InkWell(
@@ -86,14 +87,14 @@ class _HomeSrceenState extends State<HomeSrceen> {
                         padding: const EdgeInsets.all(8),
                         child: Row(
                           children: const [
-                            Text('Reject ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
+                            Text('Rejected ',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
                             Spacer(),
                             Text('02',
-                              style: TextStyle(
-                                fontSize: 28, fontWeight: FontWeight.bold))
+                                style: TextStyle(
+                                    fontSize: 28, fontWeight: FontWeight.bold))
                           ],
                         ),
                       ),
@@ -102,7 +103,8 @@ class _HomeSrceenState extends State<HomeSrceen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const ListSrceen()),
+                      MaterialPageRoute(
+                          builder: (context) => const ListOrderReportSrceen()),
                     );
                   }),
             ],
@@ -111,27 +113,29 @@ class _HomeSrceenState extends State<HomeSrceen> {
         Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal:10,vertical:0),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Container(
-                  height: 35,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(0),
-                    color: const Color.fromARGB(255, 235, 240, 245),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      children: const [
-                        Text('New Order',style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
+                height: 35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(0),
+                  color: const Color.fromARGB(255, 235, 240, 245),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Row(
+                    children: const [
+                      Text(
+                        'New Order',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      )
+                    ],
                   ),
                 ),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal:10,vertical:0),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Container(
                 height: 440,
                 decoration: BoxDecoration(
@@ -143,45 +147,46 @@ class _HomeSrceenState extends State<HomeSrceen> {
                   shrinkWrap: true,
                   itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              child: const Icon(Icons.notifications_active_rounded)
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              child: const Text('New Order Arrived!!',
+                    return InkWell(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                        height: 80,
+                        decoration: BoxDecoration(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                child: const Icon(Icons.notifications_active_rounded,color: Colors.blue,)
+                              ),
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                child: const Text('ID: 221022001',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                              ),
+                              const Spacer(),
+                              Container(
+                                padding: const EdgeInsets.all(8),
+                                child: const Text('10:43AM',
                                   style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ),
-                            const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              child: InkWell(
-                                child: const Text('Detail',
-                                  style:
-                                    TextStyle(fontWeight: FontWeight.bold,color: Colors.blue)),
-                                onTap: (){
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const OrderDetailScreen()),
-                                  );
-                                }
-                              )
-                            ),
-                          ],
+                                    TextStyle(fontWeight: FontWeight.bold,color: Colors.blue))
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      onTap: () {
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const NewOrderDatailScreen()),
+                        );
+                      }
                     );
                   },
                 ),
