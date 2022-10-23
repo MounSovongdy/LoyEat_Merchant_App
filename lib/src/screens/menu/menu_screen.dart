@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loy_eat_merchant_app/src/screens/menu/menu_detail_screen.dart';
 import 'package:loy_eat_merchant_app/src/utility/button.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 import 'package:loy_eat_merchant_app/src/utility/widget.dart';
@@ -13,16 +14,24 @@ class MenuScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryGrayColor,
       appBar: getAppBar(context),
-      body: getProduct(context),
+      body: getBody(context),
     );
   }
 
-  Widget getProduct(BuildContext context) {
+  Widget getBody(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
       itemCount: 10,
       scrollDirection: Axis.vertical,
-      itemBuilder: (BuildContext context, index) => AppWidget.product(context),
+      itemBuilder: (BuildContext context, index) => AppWidget.product(
+        context: context,
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MenuDetailScreen(),
+          ),
+        ),
+      ),
     );
   }
 
@@ -40,7 +49,14 @@ class MenuScreen extends StatelessWidget {
             style: AppTextStyle.headline1.copyWith(color: whiteColor),
           ),
           const Spacer(),
-          AppButton.button2('Add New', onTap: () {}, leftIcon: Icons.add)
+          AppButton.button2('Add New', onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MenuDetailScreen(),
+              ),
+            );
+          }, leftIcon: Icons.add)
         ],
       ),
     );
