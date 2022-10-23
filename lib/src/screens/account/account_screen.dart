@@ -27,114 +27,181 @@ class AccountScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(defaultPaddin),
               color: Colors.white,
             ),
-            child: Row(children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Container(
-                  height: 60,
-                  width: 70,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/image/profile.jpg'),
-                      fit: BoxFit.cover,
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Container(
+                    height: 60,
+                    width: 70,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/image/profile.jpg'),
+                        fit: BoxFit.cover,
+                      ),
+                      shape: BoxShape.circle,
                     ),
-                    shape: BoxShape.circle,
                   ),
-                  
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-
-                  ],
+                Text('KOi The (BKK)', style: AppTextStyle.headline1),
+                Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [],
+                  ),
                 ),
-              ),
-            ]),
+              ],
+            ),
           ),
           const SizedBox(
             height: defaultPaddin,
           ),
           Container(
-            height: 300,
+            height: 302,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(defaultPaddin),
               color: Colors.white,
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
+              padding: const EdgeInsets.symmetric(horizontal: defaultPaddin,vertical: defaultPaddin),
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: defaultPaddin, vertical: defaultPaddin),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.call,
-                          color: secondGraydColor,
-                        ),
-                        const SizedBox(
-                          width: defaultPaddin / 2,
-                        ),
-                        Text('Telephone', style: AppTextStyle.headline2),
-                        const Spacer(),
-                        Text('011425717', style: AppTextStyle.headline2),
-                      ],
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultPaddin),
+                      color: Colors.grey.withOpacity(0.2),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPaddin, vertical: defaultPaddin),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.call,
+                            color: secondGraydColor,
+                          ),
+                          const SizedBox(
+                            width: defaultPaddin / 2,
+                          ),
+                          const Text('Telephone'),
+                          const Spacer(),
+                          Text('011425717', style: AppTextStyle.headline2),
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Container(
-                      height: 1,
-                      color: Colors.grey.withOpacity(0.5),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultPaddin),
+                      color: Colors.grey.withOpacity(0.2),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPaddin, vertical: defaultPaddin),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.call,
+                            color: secondGraydColor,
+                          ),
+                          const SizedBox(
+                            width: defaultPaddin / 2,
+                          ),
+                          const Text('Telephone'),
+                          const Spacer(),
+                          Text('011425717', style: AppTextStyle.headline2),
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: defaultPaddin, vertical: defaultPaddin),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.attribution,
-                          color: secondGraydColor,
-                        ),
-                        const SizedBox(
-                          width: defaultPaddin / 2,
-                        ),
-                        Text('Gender', style: AppTextStyle.headline2),
-                        const Spacer(),
-                        Text('Male', style: AppTextStyle.headline2),
-                      ],
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultPaddin),
+                      color: Colors.grey.withOpacity(0.2),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPaddin, vertical: defaultPaddin),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.call,
+                            color: secondGraydColor,
+                          ),
+                          const SizedBox(
+                            width: defaultPaddin / 2,
+                          ),
+                          const Text('Telephone'),
+                          const Spacer(),
+                          Text('011425717', style: AppTextStyle.headline2),
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Container(
-                      height: 1,
-                      color: Colors.grey.withOpacity(0.5),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultPaddin),
+                      color: Colors.grey.withOpacity(0.2),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPaddin, vertical: defaultPaddin),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.call,
+                            color: secondGraydColor,
+                          ),
+                          const SizedBox(
+                            width: defaultPaddin / 2,
+                          ),
+                          const Text('Telephone'),
+                          const Spacer(),
+                          Text('011425717', style: AppTextStyle.headline2),
+                        ],
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: defaultPaddin, vertical: defaultPaddin),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.type_specimen,
-                          color: secondGraydColor,
-                        ),
-                        const SizedBox(
-                          width: defaultPaddin / 2,
-                        ),
-                        Text('Tpye of store', style: AppTextStyle.headline2),
-                        const Spacer(),
-                        Text('Food Store', style: AppTextStyle.headline2),
-                      ],
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(defaultPaddin),
+                      color: Colors.grey.withOpacity(0.2),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: defaultPaddin, vertical: defaultPaddin),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.call,
+                            color: secondGraydColor,
+                          ),
+                          const SizedBox(
+                            width: defaultPaddin / 2,
+                          ),
+                          const Text('Telephone'),
+                          const Spacer(),
+                          Text('011425717', style: AppTextStyle.headline2),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -142,7 +209,7 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: defaultPaddin,
+            height: defaultPaddin*4,
           ),
           AppButton.button1('Log Out', onTap: () {}, leftIcon: Icons.logout),
         ],

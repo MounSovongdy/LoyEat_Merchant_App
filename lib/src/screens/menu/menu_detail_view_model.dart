@@ -5,8 +5,11 @@ class MenuDetailViewModel extends GetxController {
 
   final formKey = GlobalKey<FormState>();
 
+  final date = TextEditingController();
   final title = TextEditingController();
-  final description = TextEditingController();
   final category = TextEditingController();
   final salePrice = TextEditingController();
+  final image = TextEditingController();
+
+  
 }

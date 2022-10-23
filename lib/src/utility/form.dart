@@ -7,6 +7,7 @@ class AppForm {
     List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
     TextEditingController? controller,
+    Widget? suffixIcon,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8.0),

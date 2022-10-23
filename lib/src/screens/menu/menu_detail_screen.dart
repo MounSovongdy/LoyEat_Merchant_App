@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/screens/menu/menu_detail_view_model.dart';
@@ -12,6 +13,10 @@ class MenuDetailScreen extends StatelessWidget {
   MenuDetailScreen({Key? key}) : super(key: key);
 
   final menuDetailViewModel = Get.put(MenuDetailViewModel());
+
+  CollectionReference products =
+      FirebaseFirestore.instance.collection('products');
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +70,6 @@ class MenuDetailScreen extends StatelessWidget {
                 },
               ),
               AppForm.input(
-                hintText: 'Description',
-                controller: menuDetailViewModel.description,
-              ),
-              AppForm.input(
                 hintText: 'Category *(require)',
                 controller: menuDetailViewModel.category,
                 validator: (value) {
@@ -79,22 +80,53 @@ class MenuDetailScreen extends StatelessWidget {
                 },
               ),
               AppForm.input(
-                hintText: 'Sale Price',
+                hintText: 'Sale Price *(require)',
                 controller: menuDetailViewModel.salePrice,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter Sale price';
+                  }
+                  return null;
+                },
+              ),
+              AppForm.input(
+                hintText: 'Image *(require)',
+                controller: menuDetailViewModel.image,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please upload image';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(
                 height: defaultPaddin,
               ),
-              AppButton.button1('Save', onTap: () {
-                if (menuDetailViewModel.formKey.currentState!.validate()) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MessageScreen(),
-                    ),
-                  );
-                }
-              }, leftIcon: Icons.save)
+              AppButton.button1('Save', onTap: () async {
+                await products.add({
+                  'create_at': '',
+                  'detail': menuDetailViewModel.category.text,
+                  'image': 'assets/image/${menuDetailViewModel.image.text}',
+                  'merchant_id': '',
+                  'price': menuDetailViewModel.salePrice.text,
+                  'product_id': '',
+                  'product_name': menuDetailViewModel.title.text,
+                }).then((value) {
+                  if (menuDetailViewModel.formKey.currentState!.validate()) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MessageScreen(),
+                      ),
+                    );
+                  }
+                });
+                menuDetailViewModel.title.clear();
+                menuDetailViewModel.category.clear();
+                menuDetailViewModel.salePrice.clear();
+                menuDetailViewModel.image.clear();
+              },
+              leftIcon: Icons.save)
             ],
           ),
         ),
