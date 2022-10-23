@@ -6,7 +6,7 @@ class AppStatus {
   static Widget done(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: MediaQuery.of(context).size.height * 0.4,
         padding: const EdgeInsets.all(defaultPaddin * 2),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(defaultPaddin),

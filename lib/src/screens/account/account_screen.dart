@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../constants/constants.dart';
 import '../../utility/button.dart';
 import '../../utility/text_style.dart';
@@ -30,7 +29,7 @@ class AccountScreen extends StatelessWidget {
             ),
             child: Row(children: [
               Padding(
-                padding: const EdgeInsets.all(defaultPaddin / 2),
+                padding: const EdgeInsets.all(8),
                 child: Container(
                     height: 60,
                     width: 70,
@@ -43,7 +42,7 @@ class AccountScreen extends StatelessWidget {
                     )),
               ),
               Padding(
-                padding: const EdgeInsets.all(defaultPaddin),
+                padding: const EdgeInsets.all(14),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: const [],
@@ -59,6 +58,80 @@ class AccountScreen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(defaultPaddin),
               color: Colors.white,
+            ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.call,
+                        color: secondGraydColor,
+                      ),
+                      const SizedBox(
+                        width: defaultPaddin / 2,
+                      ),
+                      Text('Telephone', style: AppTextStyle.headline2),
+                      const Spacer(),
+                      Text('011425717', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Container(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.attribution,
+                        color: secondGraydColor,
+                      ),
+                      const SizedBox(
+                        width: defaultPaddin / 2,
+                      ),
+                      Text('Gender', style: AppTextStyle.headline2),
+                      const Spacer(),
+                      Text('Male', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Container(
+                    height: 1,
+                    color: Colors.grey,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.type_specimen,
+                        color: secondGraydColor,
+                      ),
+                      const SizedBox(
+                        width: defaultPaddin / 2,
+                      ),
+                      Text('Tpye of store', style: AppTextStyle.headline2),
+                      const Spacer(),
+                      Text('Food Store', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(
