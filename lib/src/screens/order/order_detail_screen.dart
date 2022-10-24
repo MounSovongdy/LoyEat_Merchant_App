@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loy_eat_merchant_app/src/screens/order/order_view_model.dart';
 import 'package:loy_eat_merchant_app/src/utility/button.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 
 import '../../constants/constants.dart';
 
 class OrderDetailScreen extends StatelessWidget {
-  const OrderDetailScreen({Key? key}) : super(key: key);
+  OrderDetailScreen({Key? key}) : super(key: key);
+
+  final orderViewModel = Get.put(OrderViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -51,12 +55,12 @@ class OrderDetailScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '#le001444b',
+                    '#${orderViewModel.orderId[orderViewModel.selectedIndex.value]}',
                     style: AppTextStyle.title2
                         .copyWith(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Date: 12-Jan-22',
+                    'Date: ${orderViewModel.orderDate[orderViewModel.selectedIndex.value]}',
                     style: AppTextStyle.title2,
                   ),
                 ],
@@ -87,7 +91,7 @@ class OrderDetailScreen extends StatelessWidget {
                         style: AppTextStyle.headline2,
                       ),
                       Text(
-                        '8',
+                        '\$ ${orderViewModel.orderAmount[orderViewModel.selectedIndex.value]}',
                         style: AppTextStyle.headline2,
                       )
                     ],
@@ -106,7 +110,7 @@ class OrderDetailScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.45,
                 child: AppButton.button1('Cancel',
                     onTap: () {},
-                    backgroundColor: secondGraydColor,
+                    backgroundColor: secondGrayColor,
                     leftIcon: Icons.close),
               ),
               SizedBox(
@@ -124,8 +128,7 @@ class OrderDetailScreen extends StatelessWidget {
   List<DataColumn> title() {
     return [
       DataColumn(
-          label: Text(
-        'Item',
+          label: Text('Item',
         style: AppTextStyle.headline2,
       )),
       DataColumn(
@@ -141,50 +144,22 @@ class OrderDetailScreen extends StatelessWidget {
     ];
   }
 
-  List<DataRow> rows() {
-    return [
-      DataRow(cells: [
-        DataCell(Text(
-          'data1',
-          style: AppTextStyle.title2,
-        )),
-        DataCell(Text(
-          'data2',
-          style: AppTextStyle.title2,
-        )),
-        DataCell(Text(
-          'data3',
-          style: AppTextStyle.title2,
-        )),
-      ]),
-      DataRow(cells: [
-        DataCell(Text(
-          'data1',
-          style: AppTextStyle.title2,
-        )),
-        DataCell(Text(
-          'data2',
-          style: AppTextStyle.title2,
-        )),
-        DataCell(Text(
-          'data3',
-          style: AppTextStyle.title2,
-        )),
-      ]),
-      DataRow(cells: [
-        DataCell(Text(
-          'data1',
-          style: AppTextStyle.title2,
-        )),
-        DataCell(Text(
-          'data2',
-          style: AppTextStyle.title2,
-        )),
-        DataCell(Text(
-          'data3',
-          style: AppTextStyle.title2,
-        )),
-      ]),
-    ];
+  DataRow rows() {
+    return DataRow(
+        cells: [
+          DataCell(Text(
+            'data1',
+            style: AppTextStyle.title2,
+          )),
+          DataCell(Text(
+            'data2',
+            style: AppTextStyle.title2,
+          )),
+          DataCell(Text(
+            'data3',
+            style: AppTextStyle.title2,
+          )),
+        ]
+    );
   }
 }

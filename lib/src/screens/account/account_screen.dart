@@ -64,7 +64,8 @@ class AccountScreen extends StatelessWidget {
               color: Colors.white,
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPaddin,vertical: defaultPaddin),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: defaultPaddin, vertical: defaultPaddin),
               child: Column(
                 children: [
                   Container(
@@ -77,17 +78,23 @@ class AccountScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: defaultPaddin, vertical: defaultPaddin),
                       child: Row(
-                        children: [
-                          const Icon(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Icon(
                             Icons.call,
-                            color: secondGraydColor,
+                            color: secondGrayColor,
+                            size: 20,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          const Text('Telephone'),
-                          const Spacer(),
-                          Text('011425717', style: AppTextStyle.headline2),
+                          Text('Profile',style: TextStyle(fontSize: 13)),
+                          Spacer(),
+                          Icon(
+                            Icons.chevron_right,
+                            color: secondGrayColor,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -105,17 +112,22 @@ class AccountScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: defaultPaddin, vertical: defaultPaddin),
                       child: Row(
-                        children: [
-                          const Icon(
-                            Icons.call,
-                            color: secondGraydColor,
+                        children: const [
+                          Icon(
+                            Icons.location_on_rounded,
+                            color: secondGrayColor,
+                            size: 20,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          const Text('Telephone'),
-                          const Spacer(),
-                          Text('011425717', style: AppTextStyle.headline2),
+                          Text('Address',style: TextStyle(fontSize: 13)),
+                          Spacer(),
+                          Icon(
+                            Icons.chevron_right,
+                            color: secondGrayColor,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -133,17 +145,22 @@ class AccountScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: defaultPaddin, vertical: defaultPaddin),
                       child: Row(
-                        children: [
-                          const Icon(
-                            Icons.call,
-                            color: secondGraydColor,
+                        children: const [
+                          Icon(
+                            Icons.settings,
+                            color: secondGrayColor,
+                            size: 20,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          const Text('Telephone'),
-                          const Spacer(),
-                          Text('011425717', style: AppTextStyle.headline2),
+                          Text('Setting',style: TextStyle(fontSize: 13)),
+                          Spacer(),
+                          Icon(
+                            Icons.chevron_right,
+                            color: secondGrayColor,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),
@@ -161,55 +178,46 @@ class AccountScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: defaultPaddin, vertical: defaultPaddin),
                       child: Row(
-                        children: [
-                          const Icon(
-                            Icons.call,
-                            color: secondGraydColor,
+                        children: const [
+                          Icon(
+                            Icons.contact_support,
+                            color: secondGrayColor,
+                            size: 20,
                           ),
-                          const SizedBox(
+                          SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          const Text('Telephone'),
-                          const Spacer(),
-                          Text('011425717', style: AppTextStyle.headline2),
+                          Text('Need Support',style: TextStyle(fontSize: 13)),
+                          Spacer(),
+                          Icon(
+                            Icons.chevron_right,
+                            color: secondGrayColor,
+                            size: 20,
+                          ),
                         ],
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 5,
+                    height: 20,
                   ),
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(defaultPaddin),
-                      color: Colors.grey.withOpacity(0.2),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: defaultPaddin, vertical: defaultPaddin),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.call,
-                            color: secondGraydColor,
-                          ),
-                          const SizedBox(
-                            width: defaultPaddin / 2,
-                          ),
-                          const Text('Telephone'),
-                          const Spacer(),
-                          Text('011425717', style: AppTextStyle.headline2),
-                        ],
-                      ),
-                    ),
-                  ),
+                  const Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: defaultPaddin,
+                          vertical: defaultPaddin / 2),
+                      child: Text(
+                        'Version 0.0.1',
+                        style: TextStyle(
+                          color: secondGrayColor,
+                          fontSize: 13
+                        ),
+                      )),
                 ],
               ),
             ),
           ),
           const SizedBox(
-            height: defaultPaddin*4,
+            height: defaultPaddin * 4,
           ),
           AppButton.button1('Log Out', onTap: () {}, leftIcon: Icons.logout),
         ],

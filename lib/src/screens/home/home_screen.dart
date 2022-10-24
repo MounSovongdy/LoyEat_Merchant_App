@@ -97,7 +97,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             AppWidget.card1(
               context: context,
-              title: 'Successed',
+              title: 'Successful',
               icon: Icons.check_circle_outline,
               amount: 2,
               backgroundColor: Colors.green.shade600,

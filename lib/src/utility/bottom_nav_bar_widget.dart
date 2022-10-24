@@ -13,19 +13,18 @@ class BottomNavigationBarExample extends StatefulWidget {
   State<StatefulWidget> createState() => _BottomNavigationBarExampleState();
 }
 
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
+class _BottomNavigationBarExampleState extends State<BottomNavigationBarExample> {
   int _currentTabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    final _kTabPages = <Widget>[
+    final kTabPages = <Widget>[
       const HomeScreen(),
-      const MenuScreen(),
-      const OrderScreen(),
+      MenuScreen(),
+      OrderScreen(),
       const AccountScreen(),
     ];
-    final _kBottmonNavBarItems = <BottomNavigationBarItem>[
+    final kBottomNavBarItems = <BottomNavigationBarItem>[
       const BottomNavigationBarItem(
         icon: Icon(Icons.home_outlined),
         label: 'Home',
@@ -47,9 +46,9 @@ class _BottomNavigationBarExampleState
         activeIcon: Icon(Icons.person_rounded),
       ),
     ];
-    assert(_kTabPages.length == _kBottmonNavBarItems.length);
+    assert(kTabPages.length == kBottomNavBarItems.length);
     final bottomNavBar = BottomNavigationBar(
-      items: _kBottmonNavBarItems,
+      items: kBottomNavBarItems,
       currentIndex: _currentTabIndex,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: primaryColor,
@@ -60,7 +59,7 @@ class _BottomNavigationBarExampleState
       },
     );
     return Scaffold(
-      body: _kTabPages[_currentTabIndex],
+      body: kTabPages[_currentTabIndex],
       bottomNavigationBar: bottomNavBar,
     );
   }

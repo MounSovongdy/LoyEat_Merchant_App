@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:loy_eat_merchant_app/src/constants/constants.dart';
-import 'package:loy_eat_merchant_app/src/screens/menu/menu_screen.dart';
 import 'package:loy_eat_merchant_app/src/utility/status.dart';
 
 class MessageScreen extends StatelessWidget {

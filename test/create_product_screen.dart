@@ -9,7 +9,7 @@ class CreateProductScreen extends StatefulWidget {
 }
 
 class _CreateProductScreenState extends State<CreateProductScreen> {
-  final productname = TextEditingController();
+  final productName = TextEditingController();
   final price = TextEditingController();
   final promotion = TextEditingController();
   final detail = TextEditingController();
@@ -68,7 +68,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
             child: Column(
               children: [
                 textEditingController(
-                  controller: productname,
+                  controller: productName,
                   labletext: 'Product Name',
                 ),
                 textEditingController(
@@ -83,7 +83,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
               ],
             ),
           ),
-          addnew,
+          addNew,
         ],
       ),
     );
@@ -115,7 +115,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
     ]);
   }
 
-  Widget get addnew {
+  Widget get addNew {
     return InkWell(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
@@ -131,7 +131,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
       ),
       onTap: () {
         products.add({
-          'product_name': productname.text,
+          'product_name': productName.text,
           'price': price.text,
           'detail': detail.text,
           // 'create_at':'',
@@ -141,7 +141,7 @@ class _CreateProductScreenState extends State<CreateProductScreen> {
         }).then((value) {
           debugPrint('Product Added');
         });
-        productname.clear();
+        productName.clear();
         price.clear();
         detail.clear();
       },
