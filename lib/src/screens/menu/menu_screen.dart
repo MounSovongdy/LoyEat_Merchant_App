@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loy_eat_merchant_app/src/screens/menu/add_new_menu_screen.dart';
 import 'package:loy_eat_merchant_app/src/screens/menu/menu_detail_screen.dart';
 import 'package:loy_eat_merchant_app/src/utility/button.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
@@ -53,7 +54,7 @@ class MenuScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MenuDetailScreen(),
+                builder: (context) => AddNewMenuScreen(),
               ),
             );
           }, leftIcon: Icons.add)

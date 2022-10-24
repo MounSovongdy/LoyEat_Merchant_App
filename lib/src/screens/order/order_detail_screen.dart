@@ -51,7 +51,7 @@ class OrderDetailScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '#le001444b',
+                    '#221022001',
                     style: AppTextStyle.title2
                         .copyWith(fontWeight: FontWeight.bold),
                   ),

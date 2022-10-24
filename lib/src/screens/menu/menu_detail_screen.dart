@@ -2,10 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/screens/menu/menu_detail_view_model.dart';
-import 'package:loy_eat_merchant_app/src/screens/message/message_screen.dart';
-import 'package:loy_eat_merchant_app/src/utility/button.dart';
-import 'package:loy_eat_merchant_app/src/utility/form.dart';
-
 import '../../constants/constants.dart';
 import '../../utility/text_style.dart';
 
@@ -16,7 +12,6 @@ class MenuDetailScreen extends StatelessWidget {
 
   CollectionReference products =
       FirebaseFirestore.instance.collection('products');
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,74 +54,108 @@ class MenuDetailScreen extends StatelessWidget {
           key: menuDetailViewModel.formKey,
           child: Column(
             children: [
-              AppForm.input(
-                hintText: 'Tittle (require)',
-                controller: menuDetailViewModel.title,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter title';
-                  }
-                  return null;
-                },
-              ),
-              AppForm.input(
-                hintText: 'Category *(require)',
-                controller: menuDetailViewModel.category,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter category';
-                  }
-                  return null;
-                },
-              ),
-              AppForm.input(
-                hintText: 'Sale Price *(require)',
-                controller: menuDetailViewModel.salePrice,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter Sale price';
-                  }
-                  return null;
-                },
-              ),
-              AppForm.input(
-                hintText: 'Image *(require)',
-                controller: menuDetailViewModel.image,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please upload image';
-                  }
-                  return null;
-                },
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultPaddin),
+                  color: Colors.grey.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Text('Product ID'),
+                      const Spacer(),
+                      Text('221022001', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
               ),
               const SizedBox(
-                height: defaultPaddin,
+                height: defaultPaddin/2,
               ),
-              AppButton.button1('Save', onTap: () async {
-                await products.add({
-                  'create_at': '',
-                  'detail': menuDetailViewModel.category.text,
-                  'image': 'assets/image/${menuDetailViewModel.image.text}',
-                  'merchant_id': '',
-                  'price': menuDetailViewModel.salePrice.text,
-                  'product_id': '',
-                  'product_name': menuDetailViewModel.title.text,
-                }).then((value) {
-                  if (menuDetailViewModel.formKey.currentState!.validate()) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MessageScreen(),
-                      ),
-                    );
-                  }
-                });
-                menuDetailViewModel.title.clear();
-                menuDetailViewModel.category.clear();
-                menuDetailViewModel.salePrice.clear();
-                menuDetailViewModel.image.clear();
-              },
-              leftIcon: Icons.save)
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultPaddin),
+                  color: Colors.grey.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Text('Creat Date'),
+                      const Spacer(),
+                      Text('24-Oct-22', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: defaultPaddin/2,
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultPaddin),
+                  color: Colors.grey.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Text('Title'),
+                      const Spacer(),
+                      Text('Green Tea Latte', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: defaultPaddin/2,
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultPaddin),
+                  color: Colors.grey.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Text('Category'),
+                      const Spacer(),
+                      Text('Milk Tea', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: defaultPaddin/2,
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(defaultPaddin),
+                  color: Colors.grey.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: defaultPaddin, vertical: defaultPaddin),
+                  child: Row(
+                    children: [
+                      const Text('Price'),
+                      const Spacer(),
+                      Text('\$2.50', style: AppTextStyle.headline2),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

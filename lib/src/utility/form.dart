@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 class AppForm {
   static Widget input({
     required String hintText,
+    required TextInputType inputType,
     List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
     TextEditingController? controller,
@@ -15,6 +16,7 @@ class AppForm {
         controller: controller,
         inputFormatters: inputFormatters,
         validator: validator,
+        keyboardType: inputType,
         decoration: InputDecoration(hintText: hintText),
       ),
     );

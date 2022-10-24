@@ -43,7 +43,7 @@ class AppWidget {
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Hanuman Beer',
+                      'Green Tea Latte',
                       style: AppTextStyle.headline2,
                     ),
                     const SizedBox(
@@ -56,7 +56,7 @@ class AppWidget {
                     ),
                     const Spacer(),
                     Text(
-                      'Beer',
+                      'Milk Tea',
                       style: AppTextStyle.title2.copyWith(color: primaryColor),
                     ),
                   ],
@@ -67,7 +67,7 @@ class AppWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '3.5',
+                    '2.5',
                     style: AppTextStyle.headline1,
                   ),
                   Container(
@@ -120,7 +120,7 @@ class AppWidget {
                   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Order #: le001444b',
+                      'Order #: 221022001',
                       style: AppTextStyle.headline2,
                     ),
                     const SizedBox(
@@ -144,7 +144,7 @@ class AppWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '3.5',
+                    '2.5',
                     style: AppTextStyle.headline1,
                   ),
                   Container(

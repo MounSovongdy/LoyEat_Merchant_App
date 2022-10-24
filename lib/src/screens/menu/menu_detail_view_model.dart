@@ -10,6 +10,4 @@ class MenuDetailViewModel extends GetxController {
   final category = TextEditingController();
   final salePrice = TextEditingController();
   final image = TextEditingController();
-
-  
 }
