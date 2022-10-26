@@ -144,22 +144,56 @@ class OrderDetailScreen extends StatelessWidget {
     ];
   }
 
-  DataRow rows() {
-    return DataRow(
-        cells: [
-          DataCell(Text(
-            'data1',
-            style: AppTextStyle.title2,
-          )),
-          DataCell(Text(
-            'data2',
-            style: AppTextStyle.title2,
-          )),
-          DataCell(Text(
-            'data3',
-            style: AppTextStyle.title2,
-          )),
-        ]
-    );
+  List<DataRow> rows() {
+    return [
+      DataRow(
+          cells: [
+            DataCell(Text(
+              'data1',
+              style: AppTextStyle.title2,
+            )),
+            DataCell(Text(
+              'data2',
+              style: AppTextStyle.title2,
+            )),
+            DataCell(Text(
+              'data3',
+              style: AppTextStyle.title2,
+            )),
+          ]
+      ),
+      DataRow(
+          cells: [
+            DataCell(Text(
+              'data1',
+              style: AppTextStyle.title2,
+            )),
+            DataCell(Text(
+              'data2',
+              style: AppTextStyle.title2,
+            )),
+            DataCell(Text(
+              'data3',
+              style: AppTextStyle.title2,
+            )),
+          ]
+      ),
+      DataRow(
+          cells: [
+            DataCell(Text(
+              'data1',
+              style: AppTextStyle.title2,
+            )),
+            DataCell(Text(
+              'data2',
+              style: AppTextStyle.title2,
+            )),
+            DataCell(Text(
+              'data3',
+              style: AppTextStyle.title2,
+            )),
+          ]
+      ),
+    ];
   }
 }
