@@ -65,17 +65,36 @@ class OrderDetailScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              Container(
+                height: 2,
+                color: Colors.black.withOpacity(0.2),
+                margin: const EdgeInsets.only(top: 10),
+              ),
               const SizedBox(
-                height: defaultPaddin,
+                height: defaultPaddin / 2,
               ),
-              DataTable(
-                columns: title(),
-                rows: rows(),
-                headingRowColor: MaterialStateProperty.resolveWith((states) {
-                  return primaryGrayColor;
-                }),
-                headingRowHeight: 40,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Expanded(flex: 1, child: Text('No', style: TextStyle(fontWeight: FontWeight.bold),)),
+                  Expanded(flex: 5, child: Text('Product Name', style: TextStyle(fontWeight: FontWeight.bold),)),
+                  SizedBox(width: 20),
+                  Expanded(flex: 0, child: Text('Qty', style: TextStyle(fontWeight: FontWeight.bold),)),
+                  SizedBox(width: 20),
+                  Text('Total', style: TextStyle(fontWeight: FontWeight.bold),),
+                ],
               ),
+              Container(
+                height: 2,
+                color: Colors.black.withOpacity(0.2),
+                margin: const EdgeInsets.only(top: 10),
+              ),
+              const SizedBox(
+                height: defaultPaddin / 2,
+              ),
+              getItemOrder,
               Container(
                 decoration: BoxDecoration(
                   color: primaryGrayColor,
@@ -97,7 +116,7 @@ class OrderDetailScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -120,46 +139,38 @@ class OrderDetailScreen extends StatelessWidget {
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
 
-  List<DataColumn> title() {
-    return [
-      DataColumn(
-          label: Text('Item',
-        style: AppTextStyle.headline2,
-      )),
-      DataColumn(
-          label: Text(
-        'Qty',
-        style: AppTextStyle.headline2,
-      )),
-      DataColumn(
-          label: Text(
-        'Amount',
-        style: AppTextStyle.headline2,
-      ))
-    ];
-  }
-
-  DataRow rows() {
-    return DataRow(
-        cells: [
-          DataCell(Text(
-            'data1',
-            style: AppTextStyle.title2,
-          )),
-          DataCell(Text(
-            'data2',
-            style: AppTextStyle.title2,
-          )),
-          DataCell(Text(
-            'data3',
-            style: AppTextStyle.title2,
-          )),
-        ]
+  Widget get getItemOrder {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: orderViewModel.orderItems[orderViewModel.selectedIndex.value].length,
+        itemBuilder: (context, index) {
+          double subAmount = double.parse(orderViewModel.orderItems[orderViewModel.selectedIndex.value][index]['price']) * double.parse(orderViewModel.orderItems[orderViewModel.selectedIndex.value][index]['qty']);
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 1, child: Text('${index + 1}. ')),
+                Expanded(flex: 5, child: Text(orderViewModel.orderItems[orderViewModel.selectedIndex.value][index]['product_name'])),
+                Expanded(flex: 0, child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Text(orderViewModel.orderItems[orderViewModel.selectedIndex.value][index]['qty']),
+                )),
+                Text('\$ ${subAmount.toStringAsFixed(2)}'),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

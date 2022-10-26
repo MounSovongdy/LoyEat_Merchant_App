@@ -40,6 +40,9 @@ class OrderScreen extends StatelessWidget {
               context: context,
               onTap: () {
                 orderViewModel.selectedIndex.value = index;
+
+                debugPrint('tapped: ${orderViewModel.orderItems[orderViewModel.selectedIndex.value][0]['product_name']}');
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(

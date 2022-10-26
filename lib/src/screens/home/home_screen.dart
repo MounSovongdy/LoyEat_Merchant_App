@@ -41,18 +41,8 @@ class HomeScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            AppWidget.card2(context, 'Total Order', 123),
-            AppWidget.card2(context, 'Total Product', 20),
-          ],
-        ),
-        const SizedBox(
-          height: defaultPaddin,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AppWidget.card2(context, 'Total Sale', 1234),
-            AppWidget.card2(context, 'Total Customer', 20),
+            AppWidget.card2(context, 'Order Today', '123'),
+            AppWidget.card2(context, 'Sale Today', '\$ 20'),
           ],
         ),
       ],
@@ -86,28 +76,6 @@ class HomeScreen extends StatelessWidget {
               icon: Icons.done,
               amount: 2,
               backgroundColor: Colors.blue.shade600,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: defaultPaddin,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AppWidget.card1(
-              context: context,
-              title: 'Successful',
-              icon: Icons.check_circle_outline,
-              amount: 2,
-              backgroundColor: Colors.green.shade600,
-            ),
-            AppWidget.card1(
-              context: context,
-              title: 'Rejected',
-              icon: Icons.cancel_outlined,
-              amount: 4,
-              backgroundColor: Colors.red.shade600,
             ),
           ],
         ),

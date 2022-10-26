@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/screens/menu/menu_view_model.dart';
-import 'package:loy_eat_merchant_app/src/screens/message/message_screen.dart';
 import 'package:loy_eat_merchant_app/src/utility/button.dart';
 import 'package:loy_eat_merchant_app/src/utility/form.dart';
 
@@ -97,31 +96,7 @@ class AddNewMenuScreen extends StatelessWidget {
               const SizedBox(
                 height: defaultPaddin,
               ),
-              AppButton.button1('Save', onTap: () async {
-                await products.add({
-                  'create_at': '',
-                  'detail': menuDetailViewModel.category.text,
-                  'image': 'assets/image/${menuDetailViewModel.image.text}',
-                  'merchant_id': '',
-                  'price': menuDetailViewModel.salePrice.text,
-                  'product_id': '',
-                  'product_name': menuDetailViewModel.title.text,
-                }).then((value) {
-                  if (menuDetailViewModel.formKey.currentState!.validate()) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MessageScreen(),
-                      ),
-                    );
-                  }
-                });
-                menuDetailViewModel.title.clear();
-                menuDetailViewModel.category.clear();
-                menuDetailViewModel.salePrice.clear();
-                menuDetailViewModel.image.clear();
-              },
-              leftIcon: Icons.save)
+              AppButton.button1('Save', leftIcon: Icons.save, onTap: () => menuDetailViewModel.saveProductToFireBase(context)),
             ],
           ),
         ),

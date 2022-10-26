@@ -170,7 +170,7 @@ class AppWidget {
     );
   }
 
-  static Widget card2(BuildContext context, String title, int amount) {
+  static Widget card2(BuildContext context, String title, String amount) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.4,
       padding: const EdgeInsets.all(defaultPaddin),
@@ -188,7 +188,7 @@ class AppWidget {
             height: defaultPaddin / 2,
           ),
           Text(
-            amount.toString(),
+            amount,
             style: AppTextStyle.title2.copyWith(fontSize: 32),
           )
         ],

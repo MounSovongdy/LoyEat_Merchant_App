@@ -14,13 +14,14 @@ class OrderViewModel extends GetxController {
 
   var selectedIndex = 0.obs;
 
-  var currentDate = ''.obs;
+  var currentDate = '';
   var subAmount = '0.00'.obs;
+
   var orderId = [];
   var orderDate = [];
   var orderTime = [];
-  var orderAmount = [];
   var orderItems = [];
+  var orderAmount = [];
 
   @override
   void onInit() {
@@ -33,58 +34,45 @@ class OrderViewModel extends GetxController {
     var now = DateTime.now();
     var format = DateFormat('dd-MMM-yy');
 
-    currentDate.value = format.format(now);
+    currentDate = format.format(now);
   }
 
   void getNewOrder() {
-    final order = orderCollection.where('driver_id', isEqualTo: '').where('date', isEqualTo: '20-Oct-22').where('is_new', isEqualTo: true).snapshots();
-    order.listen((result) {
+    final order = orderCollection.where('driver_id', isEqualTo: '').where('date', isEqualTo: currentDate).where('is_new', isEqualTo: true).snapshots();
+    order.listen((result) async {
       clearList();
 
       if (result.docs.isNotEmpty) {
-        for (var data in result.docs) {
-          final id = data.data()['order_id'];
-          final date = data.data()['date'];
-          final time = data.data()['time'];
-          orderId.add(id);
-          orderDate.add(date);
-          orderTime.add(time);
+        _orderData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
 
-          final orderDetail = orderDetailCollection.where('order_id', isEqualTo: id).snapshots();
-          orderDetail.listen((e) {
-            if (e.docs.isNotEmpty) {
-              for (var data in e.docs) {
+        for (int i = 0 ; i < result.docs.length ; i++) {
+          var tempOrderID = result.docs[i]['order_id'];
+          var tempOrderDate = result.docs[i]['date'];
+          var tempOrderTime = result.docs[i]['time'];
+          orderId.add(tempOrderID);
+          orderDate.add(tempOrderDate);
+          orderTime.add(tempOrderTime);
 
-                for (int i = 0 ; i < data.data()['items'].length ; i++) {
-                  var productId = data.data()['items'][i]['product_id'];
-                  var qty = data.data()['items'][i]['qty'];
+          final orderDetail = orderDetailCollection.where('order_id', isEqualTo: tempOrderID).snapshots();
+          orderDetail.listen((event) {
+            if (event.docs.isNotEmpty) {
+              for (int i = 0 ; i < event.docs.length ; i++) {
+                var tempOrderAmount = event.docs[i]['sub_amount'];
+                orderAmount.add(tempOrderAmount);
 
-                  final product = productCollection.where('product_id', isEqualTo: productId).snapshots();
-                  product.listen((event) {
-                    if (event.docs.isNotEmpty) {
-                      var tempOrderItems = [];
-
-                      for (var data in event.docs) {
-                        var productName = data.data()['product_name'];
-                        var productPrice = data.data()['price'];
-                        tempOrderItems.add({'product_id': productId, 'product_name': productName, 'product_price': productPrice, 'qty': qty});
-                        subAmount.value = (double.parse(subAmount.value) + double.parse(productPrice)).toStringAsFixed(2);
-                      }
-
-                      if (i + 1 == data.data()['items'].length) {
-                        orderAmount.add(subAmount.value);
-                        orderItems.add(tempOrderItems);
-                        debugPrint('orderId: $orderId');
-                        debugPrint('dateOrder: $orderDate');
-                        debugPrint('timeOrder: $orderTime');
-                        debugPrint('itemsOrder: $orderItems');
-                        debugPrint('amountOrder: $orderAmount');
-                        _orderData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
-                      }
-                    }
-                  });
+                var itemsLength = event.docs[i]['items'].length;
+                var tempOrder = [];
+                for (i = 0 ; i < itemsLength ; i++) {
+                  tempOrder.add(event.docs[0]['items'][i]);
                 }
+                orderItems.add(tempOrder);
+                debugPrint('order = $orderId');
+                debugPrint('date = $orderDate');
+                debugPrint('time = $orderTime');
+                debugPrint('items = $orderItems');
+                debugPrint('amount = $orderAmount');
 
+                _orderData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
               }
             }
           });
@@ -97,7 +85,7 @@ class OrderViewModel extends GetxController {
   }
 
   void clearList() {
-    currentDate.value = '';
+    currentDate = '';
     subAmount.value = '0.00';
     orderId.clear();
     orderDate.clear();
