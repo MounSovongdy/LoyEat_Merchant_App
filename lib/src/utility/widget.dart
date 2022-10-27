@@ -189,7 +189,7 @@ class AppWidget {
           ),
           Text(
             amount,
-            style: AppTextStyle.title2.copyWith(fontSize: 32),
+            style: AppTextStyle.title2.copyWith(fontSize: 24),
           )
         ],
       ),
@@ -224,7 +224,7 @@ class AppWidget {
           ),
           Text(
             amount.toString(),
-            style: AppTextStyle.headline1.copyWith(color: whiteColor, fontSize: 32),
+            style: AppTextStyle.headline1.copyWith(color: whiteColor, fontSize: 24),
           )
         ],
       ),

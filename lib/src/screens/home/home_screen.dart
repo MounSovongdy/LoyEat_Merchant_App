@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/constants/constants.dart';
+import 'package:loy_eat_merchant_app/src/screens/home/home_view_model.dart';
 import 'package:loy_eat_merchant_app/src/screens/order/order_view_model.dart';
 import 'package:loy_eat_merchant_app/src/utility/bottom_nav_bar_widget.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
@@ -11,6 +12,7 @@ import '../../../models/remote_data.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
 
+  final homeViewModel = Get.put(HomeViewModel());
   final orderViewModel = Get.put(OrderViewModel());
 
   @override
@@ -34,26 +36,36 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Column getStats(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Stats',
-          style: AppTextStyle.headline1,
-        ),
-        const SizedBox(
-          height: defaultPaddin,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+  Widget getStats(BuildContext context) {
+    return Obx(() {
+      final status = orderViewModel.pendingData.status;
+      if (status == RemoteDataStatus.processing) {
+        return AppWidget.loading;
+      } else if (status == RemoteDataStatus.error) {
+        return AppWidget.error;
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppWidget.card2(context, 'Order Today', '123'),
-            AppWidget.card2(context, 'Sale Today', '\$ 20'),
+            Text(
+              'Stats',
+              style: AppTextStyle.headline1,
+            ),
+            const SizedBox(
+              height: defaultPaddin,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                AppWidget.card2(context, 'Order Today', '${orderViewModel.orderToday}'),
+                AppWidget.card2(context, 'Sale Today', '\$ ${orderViewModel.saleToday.toStringAsFixed(2)}'),
+              ],
+            ),
           ],
-        ),
-      ],
-    );
+        );
+      }
+    });
+
   }
 
   Widget getNewOrder(BuildContext context) {
@@ -92,14 +104,14 @@ class HomeScreen extends StatelessWidget {
                     title: 'Pending',
                     icon: Icons.schedule,
                     amount: orderViewModel.pendingNumber.value,
-                    backgroundColor: Colors.yellow.shade600,
+                    backgroundColor: Colors.deepOrange.shade600,
                   ),
                 ),
                 AppWidget.card1(
                   context: context,
                   title: 'Accepted',
                   icon: Icons.done,
-                  amount: 2,
+                  amount: orderViewModel.acceptedNumber.value,
                   backgroundColor: Colors.blue.shade600,
                 ),
               ],
@@ -116,20 +128,31 @@ class HomeScreen extends StatelessWidget {
       centerTitle: true,
       elevation: 0.0,
       automaticallyImplyLeading: false,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: const [
-          Icon(
-            Icons.toggle_off,
-            size: 32,
-            color: blackColor,
-          ),
-          Spacer(),
-          Icon(
-            Icons.notifications,
-            color: blackColor,
-          ),
-        ],
+      title: Container(
+        margin: const EdgeInsets.only(top: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                homeViewModel.clickToggle();
+              },
+              child: Obx(() => Icon(
+                homeViewModel.toggleStatus.value ?  Icons.toggle_on : Icons.toggle_off,
+                size: 48,
+                color: blackColor,
+              )),
+            ),
+            InkWell(
+              onTap: () {},
+              child: const Icon(
+                Icons.notifications,
+                size: 32,
+                color: blackColor,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

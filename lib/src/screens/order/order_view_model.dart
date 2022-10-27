@@ -22,6 +22,8 @@ class OrderViewModel extends GetxController {
   var merchantId = '6'.obs;
   var pendingNumber = 0.obs;
   var acceptedNumber = 0.obs;
+  var orderToday = 0.obs;
+  var saleToday = 0.0.obs;
 
   var orderId = [];
   var orderDate = [];
@@ -37,6 +39,8 @@ class OrderViewModel extends GetxController {
     super.onInit();
     getCurrentDate();
     getNewOrder();
+    getAcceptedNumber();
+    getAllOrderToday();
   }
 
   void getCurrentDate() {
@@ -44,6 +48,50 @@ class OrderViewModel extends GetxController {
     var format = DateFormat('dd-MMM-yy');
 
     currentDate = format.format(now);
+  }
+  void getAcceptedNumber() {
+    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('date', isEqualTo: currentDate).where('status', isEqualTo: 'Accepted').snapshots();
+    order.listen((result) {
+      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+
+      if (result.docs.isNotEmpty) {
+        for (var data in result.docs) {
+          var id = data.data()['order_id'];
+
+          final orderDetail = orderDetailCollection.where('order_id', isEqualTo: id).snapshots();
+          orderDetail.listen((event) {
+            if (event.docs.isNotEmpty) {
+              for (var element in event.docs) {
+                var subAmount = element.data()['sub_amount'];
+                acceptedNumber.value = result.docs.length;
+                saleToday.value = saleToday.value + double.parse(subAmount);
+                _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+              }
+            }
+          });
+        }
+      }
+      else {
+        acceptedNumber.value = 0;
+        saleToday.value = 0.00;
+        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+      }
+    });
+  }
+  void getAllOrderToday() {
+    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('date', isEqualTo: currentDate).snapshots();
+    order.listen((result) {
+      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+
+      if (result.docs.isNotEmpty) {
+        orderToday.value = result.docs.length;
+        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+      }
+      else {
+        orderToday.value = 0;
+        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+      }
+    });
   }
 
   void getNewOrder() {
