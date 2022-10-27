@@ -6,20 +6,25 @@ import 'package:loy_eat_merchant_app/src/screens/order/order_screen.dart';
 
 import '../screens/home/home_screen.dart';
 
+// ignore: must_be_immutable
 class BottomNavigationBarExample extends StatefulWidget {
-  const BottomNavigationBarExample({Key? key}) : super(key: key);
+
+
+  late int index;
+  
+  BottomNavigationBarExample({Key? key, required this.index}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _BottomNavigationBarExampleState();
 }
 
 class _BottomNavigationBarExampleState extends State<BottomNavigationBarExample> {
-  int _currentTabIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
     final kTabPages = <Widget>[
-      const HomeScreen(),
+      HomeScreen(),
       MenuScreen(),
       OrderScreen(),
       const AccountScreen(),
@@ -49,17 +54,17 @@ class _BottomNavigationBarExampleState extends State<BottomNavigationBarExample>
     assert(kTabPages.length == kBottomNavBarItems.length);
     final bottomNavBar = BottomNavigationBar(
       items: kBottomNavBarItems,
-      currentIndex: _currentTabIndex,
+      currentIndex: widget.index,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: primaryColor,
       onTap: (int index) {
         setState(() {
-          _currentTabIndex = index;
+          widget.index = index;
         });
       },
     );
     return Scaffold(
-      body: kTabPages[_currentTabIndex],
+      body: kTabPages[widget.index],
       bottomNavigationBar: bottomNavBar,
     );
   }

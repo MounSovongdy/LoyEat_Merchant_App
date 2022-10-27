@@ -7,9 +7,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp(
   );
-   const app = GetMaterialApp(
-    home: BottomNavigationBarExample(),
-    debugShowCheckedModeBanner: false,
+
+    var app = GetMaterialApp(
+      home: BottomNavigationBarExample(index: 0),
+      debugShowCheckedModeBanner: false,
   );
   runApp(app);
 }

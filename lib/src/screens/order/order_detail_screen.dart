@@ -5,6 +5,7 @@ import 'package:loy_eat_merchant_app/src/utility/button.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 
 import '../../constants/constants.dart';
+import '../../utility/bottom_nav_bar_widget.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   OrderDetailScreen({Key? key}) : super(key: key);
@@ -128,14 +129,34 @@ class OrderDetailScreen extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.45,
                 child: AppButton.button1('Cancel',
-                    onTap: () {},
-                    backgroundColor: secondGrayColor,
-                    leftIcon: Icons.close),
+                  backgroundColor: secondGrayColor,
+                  leftIcon: Icons.close,
+                  onTap: () {
+                    orderViewModel.buttonRejected();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BottomNavigationBarExample(index: 0),
+                      ),
+                    );
+                  },
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.45,
-                child: AppButton.button1('Accept',
-                    onTap: () {}, leftIcon: Icons.done),
+                child: AppButton.button1(
+                  'Accept',
+                  leftIcon: Icons.done,
+                  onTap: () {
+                    orderViewModel.buttonAccept();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BottomNavigationBarExample(index: 0),
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),

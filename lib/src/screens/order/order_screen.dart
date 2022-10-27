@@ -25,9 +25,12 @@ class OrderScreen extends StatelessWidget {
   Widget getOrder(BuildContext context) {
     return Obx(() {
       final status = orderViewModel.orderData.status;
-      if (status == RemoteDataStatus.processing) {
+      if (status == RemoteDataStatus.none) {
         return AppWidget.noOrderData;
-      } else if (status == RemoteDataStatus.error) {
+      } else if (status == RemoteDataStatus.processing) {
+        return AppWidget.loading;
+      }
+      else if (status == RemoteDataStatus.error) {
         return AppWidget.error;
       } else {
         return Container(

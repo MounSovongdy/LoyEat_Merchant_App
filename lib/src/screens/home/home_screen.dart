@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/constants/constants.dart';
+import 'package:loy_eat_merchant_app/src/screens/order/order_view_model.dart';
+import 'package:loy_eat_merchant_app/src/utility/bottom_nav_bar_widget.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 import 'package:loy_eat_merchant_app/src/utility/widget.dart';
 
+import '../../../models/remote_data.dart';
+
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  final orderViewModel = Get.put(OrderViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -49,38 +56,58 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Column getNewOrder(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'New Order',
-          style: AppTextStyle.headline1,
-        ),
-        const SizedBox(
-          height: defaultPaddin,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+  Widget getNewOrder(BuildContext context) {
+    return Obx(() {
+      final status = orderViewModel.pendingData.status;
+      if (status == RemoteDataStatus.processing) {
+        return AppWidget.loading;
+      } else if (status == RemoteDataStatus.error) {
+        return AppWidget.error;
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppWidget.card1(
-              context: context,
-              title: 'Pending',
-              icon: Icons.schedule,
-              amount: 2,
-              backgroundColor: Colors.yellow.shade600,
+            Text(
+              'New Order',
+              style: AppTextStyle.headline1,
             ),
-            AppWidget.card1(
-              context: context,
-              title: 'Accepted',
-              icon: Icons.done,
-              amount: 2,
-              backgroundColor: Colors.blue.shade600,
+            const SizedBox(
+              height: defaultPaddin,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                InkWell(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BottomNavigationBarExample(index: 2),
+                        maintainState: false,
+                      ),
+                    );
+                  },
+                  child: AppWidget.card1(
+                    context: context,
+                    title: 'Pending',
+                    icon: Icons.schedule,
+                    amount: orderViewModel.pendingNumber.value,
+                    backgroundColor: Colors.yellow.shade600,
+                  ),
+                ),
+                AppWidget.card1(
+                  context: context,
+                  title: 'Accepted',
+                  icon: Icons.done,
+                  amount: 2,
+                  backgroundColor: Colors.blue.shade600,
+                ),
+              ],
             ),
           ],
-        ),
-      ],
-    );
+        );
+      }
+    });
   }
 
   AppBar getAppBar(BuildContext context) {
