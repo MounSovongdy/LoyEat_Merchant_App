@@ -25,7 +25,7 @@ class _BottomNavigationBarExampleState extends State<BottomNavigationBarExample>
       HomeScreen(),
       MenuScreen(),
       OrderScreen(),
-      const AccountScreen(),
+      AccountScreen(),
     ];
     final kBottomNavBarItems = <BottomNavigationBarItem>[
       const BottomNavigationBarItem(

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loy_eat_merchant_app/src/screens/account/account_view_model.dart';
 import '../../constants/constants.dart';
 import '../../utility/button.dart';
 import '../../utility/text_style.dart';
 
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({Key? key}) : super(key: key);
+  AccountScreen({Key? key}) : super(key: key);
+
+  final accountViewModel = Get.put(AccountViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +38,16 @@ class AccountScreen extends StatelessWidget {
                   child: Container(
                     height: 60,
                     width: 70,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/image/profile.jpg'),
+                        image: AssetImage(accountViewModel.merchantImage),
                         fit: BoxFit.cover,
                       ),
                       shape: BoxShape.circle,
                     ),
                   ),
                 ),
-                Text('KOi The (BKK)', style: AppTextStyle.headline1),
+                Text(accountViewModel.merchantName, style: AppTextStyle.headline1),
                 Padding(
                   padding: const EdgeInsets.all(14),
                   child: Column(
@@ -88,7 +92,7 @@ class AccountScreen extends StatelessWidget {
                           SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          Text('Profile',style: TextStyle(fontSize: 13)),
+                          Text('Profile', style: TextStyle(fontSize: 13)),
                           Spacer(),
                           Icon(
                             Icons.chevron_right,
@@ -121,7 +125,7 @@ class AccountScreen extends StatelessWidget {
                           SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          Text('Address',style: TextStyle(fontSize: 13)),
+                          Text('Address', style: TextStyle(fontSize: 13)),
                           Spacer(),
                           Icon(
                             Icons.chevron_right,
@@ -154,7 +158,7 @@ class AccountScreen extends StatelessWidget {
                           SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          Text('Setting',style: TextStyle(fontSize: 13)),
+                          Text('Setting', style: TextStyle(fontSize: 13)),
                           Spacer(),
                           Icon(
                             Icons.chevron_right,
@@ -187,7 +191,7 @@ class AccountScreen extends StatelessWidget {
                           SizedBox(
                             width: defaultPaddin / 2,
                           ),
-                          Text('Need Support',style: TextStyle(fontSize: 13)),
+                          Text('Need Support', style: TextStyle(fontSize: 13)),
                           Spacer(),
                           Icon(
                             Icons.chevron_right,
@@ -207,10 +211,7 @@ class AccountScreen extends StatelessWidget {
                           vertical: defaultPaddin / 2),
                       child: Text(
                         'Version 0.0.1',
-                        style: TextStyle(
-                          color: secondGrayColor,
-                          fontSize: 13
-                        ),
+                        style: TextStyle(color: secondGrayColor, fontSize: 13),
                       )),
                 ],
               ),

@@ -6,11 +6,11 @@ import 'package:loy_eat_merchant_app/src/screens/message/message_screen.dart';
 import '../../../models/remote_data.dart';
 
 class MenuViewModel extends GetxController {
-
   final formKey = GlobalKey<FormState>();
   final productCollection = FirebaseFirestore.instance.collection('products');
 
-  final _productData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
+  final _productData =
+      RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get productData => _productData.value;
 
   final title = TextEditingController();
@@ -39,10 +39,12 @@ class MenuViewModel extends GetxController {
   }
 
   void getMerchantProduct() {
-    clearProductList();
+    final product = productCollection
+        .where('merchant_id', isEqualTo: merchantId.value)
+        .snapshots();
+    product.listen((result) {
+      clearProductList();
 
-    final product = productCollection.where('merchant_id', isEqualTo: merchantId.value).snapshots();
-    product.listen((result){
       if (result.docs.isNotEmpty) {
         for (var data in result.docs) {
           var id = data.data()['product_id'];
@@ -59,11 +61,13 @@ class MenuViewModel extends GetxController {
           arrayProductSubTitle.add(subTitle);
           arrayProductPrice.add(price);
 
-          _productData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+          _productData.value =
+              RemoteData<bool>(status: RemoteDataStatus.success, data: true);
         }
       }
     });
   }
+
   void saveProductToFireBase(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       await productCollection.add({
@@ -93,6 +97,7 @@ class MenuViewModel extends GetxController {
 
     currentDate.value = format.format(now);
   }
+
   void getLastProId() {
     final product = productCollection.orderBy('product_id').snapshots();
     product.listen((data) {
@@ -102,18 +107,21 @@ class MenuViewModel extends GetxController {
         tempList.add(id);
       }
 
-      lastProductId = tempList.reduce((curr, next) => curr > next? curr: next) + 1;
+      lastProductId =
+          tempList.reduce((curr, next) => curr > next ? curr : next) + 1;
       debugPrint('$lastProductId');
-
     });
   }
+
   void clearProductList() {
+    arrayProductId.clear();
     arrayProductImage.clear();
     arrayProductTitle.clear();
     arrayProductDateOrder.clear();
     arrayProductSubTitle.clear();
     arrayProductPrice.clear();
   }
+
   void clearTextField() {
     title.clear();
     category.clear();
