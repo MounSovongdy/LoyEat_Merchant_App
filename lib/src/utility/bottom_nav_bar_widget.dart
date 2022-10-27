@@ -8,10 +8,8 @@ import '../screens/home/home_screen.dart';
 
 // ignore: must_be_immutable
 class BottomNavigationBarExample extends StatefulWidget {
-
-
   late int index;
-  
+
   BottomNavigationBarExample({Key? key, required this.index}) : super(key: key);
 
   @override
