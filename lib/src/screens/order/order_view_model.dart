@@ -6,12 +6,15 @@ import '../../../models/remote_data.dart';
 
 class OrderViewModel extends GetxController {
   final orderCollection = FirebaseFirestore.instance.collection('orders');
-  final orderDetailCollection = FirebaseFirestore.instance.collection('orders_detail');
+  final orderDetailCollection =
+      FirebaseFirestore.instance.collection('orders_detail');
   final productCollection = FirebaseFirestore.instance.collection('products');
 
-  final _orderData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
+  final _orderData =
+      RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get orderData => _orderData.value;
-  final _pendingData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
+  final _pendingData =
+      RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get pendingData => _pendingData.value;
 
   var selectedIndex = 0.obs;
@@ -49,69 +52,92 @@ class OrderViewModel extends GetxController {
 
     currentDate = format.format(now);
   }
-  void getAcceptedNumber() {
-    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('date', isEqualTo: currentDate).where('status', isEqualTo: 'Accepted').snapshots();
-    order.listen((result) {
-      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
 
+  void getAcceptedNumber() {
+    final order = orderCollection
+        .where('merchant_id', isEqualTo: merchantId.value)
+        .where('date', isEqualTo: currentDate)
+        .where('status', isEqualTo: 'Accepted')
+        .snapshots();
+    order.listen((result) {
+      _pendingData.value =
+          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+      saleToday.value = 0.00;
       if (result.docs.isNotEmpty) {
         for (var data in result.docs) {
           var id = data.data()['order_id'];
 
-          final orderDetail = orderDetailCollection.where('order_id', isEqualTo: id).snapshots();
+          final orderDetail = orderDetailCollection
+              .where('order_id', isEqualTo: id)
+              .snapshots();
           orderDetail.listen((event) {
             if (event.docs.isNotEmpty) {
               for (var element in event.docs) {
                 var subAmount = element.data()['sub_amount'];
                 acceptedNumber.value = result.docs.length;
                 saleToday.value = saleToday.value + double.parse(subAmount);
-                _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+                _pendingData.value = RemoteData<bool>(
+                    status: RemoteDataStatus.success, data: true);
               }
             }
           });
         }
-      }
-      else {
+      } else {
         acceptedNumber.value = 0;
         saleToday.value = 0.00;
-        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+        _pendingData.value =
+            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
       }
     });
   }
+
   void getAllOrderToday() {
-    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('date', isEqualTo: currentDate).snapshots();
+    final order = orderCollection
+        .where('merchant_id', isEqualTo: merchantId.value)
+        .where('date', isEqualTo: currentDate)
+        .snapshots();
     order.listen((result) {
-      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+      _pendingData.value =
+          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
 
       if (result.docs.isNotEmpty) {
         orderToday.value = result.docs.length;
-        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
-      }
-      else {
+        _pendingData.value =
+            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+      } else {
         orderToday.value = 0;
-        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+        _pendingData.value =
+            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
       }
     });
   }
 
   void getNewOrder() {
-    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('driver_id', isEqualTo: '').where('date', isEqualTo: currentDate).where('status', isEqualTo: 'Pending').snapshots();
+    final order = orderCollection
+        .where('merchant_id', isEqualTo: merchantId.value)
+        .where('driver_id', isEqualTo: '')
+        .where('date', isEqualTo: currentDate)
+        .where('status', isEqualTo: 'Pending')
+        .snapshots();
     order.listen((result) async {
-
-      _orderData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
-      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+      _orderData.value =
+          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+      _pendingData.value =
+          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
 
       clearList();
 
       if (result.docs.isNotEmpty) {
         pendingNumber.value = result.docs.length;
 
-        for (int i = 0 ; i < result.docs.length ; i++) {
+        for (int i = 0; i < result.docs.length; i++) {
           var tempOrderID = result.docs[i]['order_id'];
           var tempOrderDate = result.docs[i]['date'];
           var tempOrderTime = result.docs[i]['time'];
 
-          final orderDetail = orderDetailCollection.where('order_id', isEqualTo: tempOrderID).snapshots();
+          final orderDetail = orderDetailCollection
+              .where('order_id', isEqualTo: tempOrderID)
+              .snapshots();
           orderDetail.listen((e) {
             if (e.docs.isNotEmpty) {
               for (var data in e.docs) {
@@ -132,21 +158,22 @@ class OrderViewModel extends GetxController {
                 debugPrint('items = $orderItems');
                 debugPrint('amount = $orderAmount');
 
-                _orderData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
-                _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+                _orderData.value = RemoteData<bool>(
+                    status: RemoteDataStatus.success, data: true);
+                _pendingData.value = RemoteData<bool>(
+                    status: RemoteDataStatus.success, data: true);
               }
-
             }
           });
         }
-      }
-      else {
+      } else {
         clearList();
         pendingNumber.value = 0;
-        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
-        _orderData.value = RemoteData<bool>(status: RemoteDataStatus.none, data: null);
+        _pendingData.value =
+            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+        _orderData.value =
+            RemoteData<bool>(status: RemoteDataStatus.none, data: null);
       }
-
     });
   }
 
@@ -163,7 +190,9 @@ class OrderViewModel extends GetxController {
   }
 
   void buttonAccept() {
-    final order = orderCollection.where('order_id', isEqualTo: orderId[selectedIndex.value]).snapshots();
+    final order = orderCollection
+        .where('order_id', isEqualTo: orderId[selectedIndex.value])
+        .snapshots();
     order.listen((result) {
       if (result.docs.isNotEmpty) {
         debugPrint('order id = ${orderId[selectedIndex.value]}');
@@ -177,8 +206,11 @@ class OrderViewModel extends GetxController {
       }
     });
   }
+
   void buttonRejected() {
-    final order = orderCollection.where('order_id', isEqualTo: orderId[selectedIndex.value]).snapshots();
+    final order = orderCollection
+        .where('order_id', isEqualTo: orderId[selectedIndex.value])
+        .snapshots();
     order.listen((result) {
       if (result.docs.isNotEmpty) {
         debugPrint('order id = ${orderId[selectedIndex.value]}');
