@@ -166,7 +166,8 @@ class OrderViewModel extends GetxController {
             }
           });
         }
-      } else {
+      }
+      else {
         clearList();
         pendingNumber.value = 0;
         _pendingData.value =
