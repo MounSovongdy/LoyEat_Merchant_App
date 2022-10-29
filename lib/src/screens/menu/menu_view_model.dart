@@ -36,6 +36,8 @@ class MenuViewModel extends GetxController {
     super.onInit();
     getCurrentDate();
     getCurrentUser();
+    getLastProId();
+    getMerchantProduct();
   }
 
   void getCurrentUser() async {

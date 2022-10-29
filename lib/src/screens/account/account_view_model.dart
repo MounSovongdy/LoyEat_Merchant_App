@@ -19,6 +19,7 @@ class AccountViewModel extends GetxController {
   void onInit() {
     super.onInit();
     getCurrentUser();
+    getMerchantName();
   }
 
   void getCurrentUser() async {

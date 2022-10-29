@@ -20,6 +20,7 @@ class HomeViewModel extends GetxController {
   void onInit() {
     super.onInit();
     getCurrentUser();
+    getToggleStatus();
   }
 
   void getToggleStatus() {

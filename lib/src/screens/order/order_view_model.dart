@@ -45,6 +45,9 @@ class OrderViewModel extends GetxController {
     super.onInit();
     getCurrentUser();
     getCurrentDate();
+    getNewOrder();
+    getAcceptedNumber();
+    getAllOrderToday();
   }
 
   void getCurrentUser() async {
