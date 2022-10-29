@@ -10,13 +10,13 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   var app = GetMaterialApp(
-      home: getHome(),
+      home: getHome,
       debugShowCheckedModeBanner: false,
   );
   runApp(app);
 }
 
-Widget getHome() {
+Widget get getHome {
   Timer(
     const Duration(seconds: 2),
         () => Navigator.of(Get.context!).pushReplacement(
