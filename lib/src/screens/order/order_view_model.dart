@@ -87,8 +87,7 @@ class OrderViewModel extends GetxController {
       } else {
         acceptedNumber.value = 0;
         saleToday.value = 0.00;
-        _pendingData.value =
-            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
       }
     });
   }

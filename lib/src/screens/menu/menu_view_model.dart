@@ -71,10 +71,10 @@ class MenuViewModel extends GetxController {
   void saveProductToFireBase(BuildContext context) async {
     if (formKey.currentState!.validate()) {
       await productCollection.add({
-        'create_at': currentDate.value,
+        'create_at': currentDate.toString(),
         'detail': category.text,
         'image': 'assets/image/${image.text}',
-        'merchant_id': merchantId.value,
+        'merchant_id': merchantId.toString(),
         'price': salePrice.text,
         'product_id': lastProductId.toString(),
         'product_name': title.text,

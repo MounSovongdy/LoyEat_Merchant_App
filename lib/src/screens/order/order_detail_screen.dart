@@ -6,11 +6,13 @@ import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 
 import '../../constants/constants.dart';
 import '../../utility/bottom_nav_bar_widget.dart';
+import '../home/home_view_model.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   OrderDetailScreen({Key? key}) : super(key: key);
 
   final orderViewModel = Get.put(OrderViewModel());
+  final homeViewModel  =Get.put(HomeViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,9 @@ class OrderDetailScreen extends StatelessWidget {
   }
 
   Widget getDetail(BuildContext context) {
-    return ListView(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           padding: const EdgeInsets.all(defaultPaddin),
@@ -121,7 +125,7 @@ class OrderDetailScreen extends StatelessWidget {
             ],
           ),
         ),
-        Padding(
+        Obx(() => homeViewModel.toggleStatus.value ? Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -160,7 +164,7 @@ class OrderDetailScreen extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ) : const Text('You are Offline!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red))),
       ],
     );
   }
