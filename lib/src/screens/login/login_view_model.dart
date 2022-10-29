@@ -60,11 +60,8 @@ class LoginViewModel extends GetxController{
           debugPrint('The provided phone number is not valid.');
         }
       },
-      codeSent: (String verificationId, int? resendToken) async {
-        String smsCode = otpCode.text;
+      codeSent: (String verificationId, int? resendToken) {
         verificationIDReceived = verificationId;
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
-        await auth.signInWithCredential(credential);
       },
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
