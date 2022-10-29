@@ -119,17 +119,17 @@ class MenuViewModel extends GetxController {
   }
 
   void getLastProId() {
-    final product = productCollection.orderBy('product_id').snapshots();
+    final product = productCollection.snapshots();
     product.listen((data) {
-      var tempList = <int>[];
-      for (var result in data.docs) {
-        int id = int.parse(result['product_id']);
-        tempList.add(id);
+      if (data.docs.isNotEmpty) {
+        var tempList = [];
+        for (var result in data.docs) {
+          int id = int.parse(result.data()['product_id'] ?? '0');
+          tempList.add(id);
+        }
+        lastProductId = tempList.reduce((curr, next) => curr > next ? curr : next) + 1;
+        debugPrint('$lastProductId');
       }
-
-      lastProductId =
-          tempList.reduce((curr, next) => curr > next ? curr : next) + 1;
-      debugPrint('$lastProductId');
     });
   }
 
