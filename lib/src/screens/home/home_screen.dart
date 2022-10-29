@@ -6,8 +6,8 @@ import 'package:loy_eat_merchant_app/src/screens/order/order_view_model.dart';
 import 'package:loy_eat_merchant_app/src/utility/bottom_nav_bar_widget.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 import 'package:loy_eat_merchant_app/src/utility/widget.dart';
-
 import '../../../models/remote_data.dart';
+import '../accept/accepted_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -57,15 +57,16 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AppWidget.card2(context, 'Order Today', '${orderViewModel.orderToday}'),
-                AppWidget.card2(context, 'Sale Today', '\$ ${orderViewModel.saleToday.toStringAsFixed(2)}'),
+                AppWidget.card2(
+                    context, 'Order Today', '${orderViewModel.orderToday}'),
+                AppWidget.card2(context, 'Sale Today',
+                    '\$ ${orderViewModel.saleToday.toStringAsFixed(2)}'),
               ],
             ),
           ],
         );
       }
     });
-
   }
 
   Widget getNewOrder(BuildContext context) {
@@ -90,11 +91,12 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BottomNavigationBarExample(index: 2),
+                        builder: (context) =>
+                            BottomNavigationBarExample(index: 2),
                         maintainState: false,
                       ),
                     );
@@ -107,12 +109,23 @@ class HomeScreen extends StatelessWidget {
                     backgroundColor: Colors.deepOrange.shade600,
                   ),
                 ),
-                AppWidget.card1(
-                  context: context,
-                  title: 'Accepted',
-                  icon: Icons.done,
-                  amount: orderViewModel.acceptedNumber.value,
-                  backgroundColor: Colors.blue.shade600,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AcceptedScreen(),
+                        maintainState: false,
+                      ),
+                    );
+                  },
+                  child: AppWidget.card1(
+                    context: context,
+                    title: 'Accepted',
+                    icon: Icons.done,
+                    amount: orderViewModel.acceptedNumber.value,
+                    backgroundColor: Colors.blue.shade600,
+                  ),
                 ),
               ],
             ),
@@ -133,22 +146,37 @@ class HomeScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            InkWell(
-              onTap: () {
-                homeViewModel.clickToggle();
-              },
-              child: Obx(() => Icon(
-                homeViewModel.toggleStatus.value ?  Icons.toggle_on : Icons.toggle_off,
-                size: 48,
-                color: blackColor,
-              )),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    homeViewModel.clickToggle();
+                  },
+                  child: Obx(
+                    () => Icon(
+                      homeViewModel.toggleStatus.value
+                          ? Icons.toggle_on
+                          : Icons.toggle_off,
+                      size: 48,
+                      color: blackColor,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: defaultPaddin),
+                Obx(
+                  () => Text(
+                    homeViewModel.toggleStatus.value ? 'Online' : 'Offline',
+                    style: const TextStyle(color: blackColor),
+                  ),
+                ),
+              ],
             ),
             InkWell(
               onTap: () {},
               child: const Icon(
                 Icons.notifications,
                 size: 32,
-                color: blackColor,
+                color: primaryColor,
               ),
             ),
           ],

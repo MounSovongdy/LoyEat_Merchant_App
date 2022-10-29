@@ -54,6 +54,7 @@ class MenuScreen extends StatelessWidget {
               dateOrder: menuDetailViewModel.arrayProductDateOrder[index],
               subTitleText: menuDetailViewModel.arrayProductSubTitle[index],
               price: menuDetailViewModel.arrayProductPrice[index],
+              status: 'Enable',
             ),
           ),
         );

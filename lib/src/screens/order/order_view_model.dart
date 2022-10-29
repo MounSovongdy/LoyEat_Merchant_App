@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../models/remote_data.dart';
+import '../menu/menu_view_model.dart';
 
 class OrderViewModel extends GetxController {
   final orderCollection = FirebaseFirestore.instance.collection('orders');
   final orderDetailCollection =
       FirebaseFirestore.instance.collection('orders_detail');
   final productCollection = FirebaseFirestore.instance.collection('products');
+
+  final menuViewModel = Get.put(MenuViewModel());
 
   final _orderData =
       RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
@@ -22,7 +25,6 @@ class OrderViewModel extends GetxController {
   var currentDate = '';
   var subAmount = '0.00'.obs;
 
-  var merchantId = '6'.obs;
   var pendingNumber = 0.obs;
   var acceptedNumber = 0.obs;
   var orderToday = 0.obs;
@@ -55,7 +57,7 @@ class OrderViewModel extends GetxController {
 
   void getAcceptedNumber() {
     final order = orderCollection
-        .where('merchant_id', isEqualTo: merchantId.value)
+        .where('merchant_id', isEqualTo: menuViewModel.merchantId.value)
         .where('date', isEqualTo: currentDate)
         .where('status', isEqualTo: 'Accepted')
         .snapshots();
@@ -93,7 +95,7 @@ class OrderViewModel extends GetxController {
 
   void getAllOrderToday() {
     final order = orderCollection
-        .where('merchant_id', isEqualTo: merchantId.value)
+        .where('merchant_id', isEqualTo: menuViewModel.merchantId.value)
         .where('date', isEqualTo: currentDate)
         .snapshots();
     order.listen((result) {
@@ -114,7 +116,7 @@ class OrderViewModel extends GetxController {
 
   void getNewOrder() {
     final order = orderCollection
-        .where('merchant_id', isEqualTo: merchantId.value)
+        .where('merchant_id', isEqualTo: menuViewModel.merchantId.value)
         .where('driver_id', isEqualTo: '')
         .where('date', isEqualTo: currentDate)
         .where('status', isEqualTo: 'Pending')
@@ -166,8 +168,7 @@ class OrderViewModel extends GetxController {
             }
           });
         }
-      }
-      else {
+      } else {
         clearList();
         pendingNumber.value = 0;
         _pendingData.value =

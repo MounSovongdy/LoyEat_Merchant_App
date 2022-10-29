@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/screens/menu/menu_view_model.dart';
 import '../../../models/remote_data.dart';
 import '../../constants/constants.dart';
+import '../../utility/button.dart';
 import '../../utility/text_style.dart';
 import '../../utility/widget.dart';
 
@@ -49,30 +50,49 @@ class MenuDetailScreen extends StatelessWidget {
       } else if (status == RemoteDataStatus.error) {
         return AppWidget.error;
       } else {
-         return Container(
-          margin: const EdgeInsets.all(defaultPaddin),
-          padding: const EdgeInsets.all(defaultPaddin),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(defaultPaddin),
-            color: whiteColor,
-          ),
-          child: Form(
-            key: menuViewModel.formKey,
-            child: columnForm(
-              id: menuViewModel.arrayProductId[menuViewModel.selectedIndex.value],
-              date: menuViewModel.arrayProductDateOrder[menuViewModel.selectedIndex.value],
-              title: menuViewModel.arrayProductTitle[menuViewModel.selectedIndex.value],
-              subTitle: menuViewModel.arrayProductSubTitle[menuViewModel.selectedIndex.value],
-              price: menuViewModel.arrayProductPrice[menuViewModel.selectedIndex.value],
+        return Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.all(defaultPaddin),
+              padding: const EdgeInsets.all(defaultPaddin),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(defaultPaddin),
+                color: whiteColor,
+              ),
+              child: Form(
+                key: menuViewModel.formKey,
+                child: columnForm(
+                  id: menuViewModel
+                      .arrayProductId[menuViewModel.selectedIndex.value],
+                  date: menuViewModel
+                      .arrayProductDateOrder[menuViewModel.selectedIndex.value],
+                  title: menuViewModel
+                      .arrayProductTitle[menuViewModel.selectedIndex.value],
+                  subTitle: menuViewModel
+                      .arrayProductSubTitle[menuViewModel.selectedIndex.value],
+                  price: menuViewModel
+                      .arrayProductPrice[menuViewModel.selectedIndex.value],
+                ),
+              ),
             ),
-          ),
+            buttom(
+              context: context,
+              status: '',
+            ),
+          ],
         );
       }
     });
   }
 
-  Widget columnForm({required String id, required String date, required String title, required String subTitle, required String price}) {
+  Widget columnForm(
+      {required String id,
+      required String date,
+      required String title,
+      required String subTitle,
+      required String price}) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           height: 50,
@@ -93,7 +113,7 @@ class MenuDetailScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: defaultPaddin/2,
+          height: defaultPaddin / 2,
         ),
         Container(
           height: 50,
@@ -114,7 +134,7 @@ class MenuDetailScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: defaultPaddin/2,
+          height: defaultPaddin / 2,
         ),
         Container(
           height: 50,
@@ -135,7 +155,7 @@ class MenuDetailScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: defaultPaddin/2,
+          height: defaultPaddin / 2,
         ),
         Container(
           height: 50,
@@ -156,7 +176,7 @@ class MenuDetailScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: defaultPaddin/2,
+          height: defaultPaddin / 2,
         ),
         Container(
           height: 50,
@@ -177,6 +197,52 @@ class MenuDetailScreen extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget buttom({
+    required BuildContext context,
+    required String status,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.45,
+            child: AppButton.button1(
+              'Disable',
+              backgroundColor: secondGrayColor,
+              leftIcon: Icons.close,
+              onTap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => BottomNavigationBarExample(index: 0),
+                //   ),
+                // );
+              },
+            ),
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.45,
+            child: AppButton.button1(
+              'Enable',
+              leftIcon: Icons.done,
+              onTap: () {
+                // orderViewModel.buttonAccept();
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => BottomNavigationBarExample(index: 0),
+                //   ),
+                // );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

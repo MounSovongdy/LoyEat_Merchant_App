@@ -47,14 +47,8 @@ class AccountScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(accountViewModel.merchantName, style: AppTextStyle.headline1),
-                Padding(
-                  padding: const EdgeInsets.all(14),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [],
-                  ),
-                ),
+                Expanded(child: Text(accountViewModel.merchantName, style: AppTextStyle.headline1)),
+
               ],
             ),
           ),

@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:loy_eat_merchant_app/src/screens/order/order_view_model.dart';
+
+import '../menu/menu_view_model.dart';
 
 class AccountViewModel extends GetxController {
-  final orderViewModel = Get.put(OrderViewModel());
+  final menuViewModel = Get.put(MenuViewModel());
 
   final merchantCollection = FirebaseFirestore.instance.collection('merchants');
 
@@ -18,7 +19,7 @@ class AccountViewModel extends GetxController {
 
   void getMerchantName() {
     final merchant = merchantCollection
-        .where('merchant_id', isEqualTo: orderViewModel.merchantId.value)
+        .where('merchant_id', isEqualTo: menuViewModel.merchantId.value)
         .snapshots();
     merchant.listen((result) {
       for (var data in result.docs) {

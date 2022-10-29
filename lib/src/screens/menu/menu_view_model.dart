@@ -19,7 +19,7 @@ class MenuViewModel extends GetxController {
   final image = TextEditingController();
 
   var selectedIndex = 0.obs;
-  var merchantId = '6'.obs;
+  var merchantId = '7'.obs;
   var currentDate = ''.obs;
   var lastProductId = 0;
 

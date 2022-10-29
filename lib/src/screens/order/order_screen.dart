@@ -29,8 +29,7 @@ class OrderScreen extends StatelessWidget {
         return AppWidget.noOrderData;
       } else if (status == RemoteDataStatus.processing) {
         return AppWidget.loading;
-      }
-      else if (status == RemoteDataStatus.error) {
+      } else if (status == RemoteDataStatus.error) {
         return AppWidget.error;
       } else {
         return Container(
@@ -44,7 +43,8 @@ class OrderScreen extends StatelessWidget {
               onTap: () {
                 orderViewModel.selectedIndex.value = index;
 
-                debugPrint('tapped: ${orderViewModel.orderItems[orderViewModel.selectedIndex.value][0]['product_name']}');
+                debugPrint(
+                    'tapped: ${orderViewModel.orderItems[orderViewModel.selectedIndex.value][0]['product_name']}');
 
                 Navigator.push(
                   context,
@@ -56,9 +56,11 @@ class OrderScreen extends StatelessWidget {
               orderId: orderViewModel.orderId[index],
               orderDate: orderViewModel.orderDate[index],
               orderTime: orderViewModel.orderTime[index],
-              productName: orderViewModel.orderItems[index][0]['product_name'].toString(),
+              productName: orderViewModel.orderItems[index][0]['product_name']
+                  .toString(),
               qty: orderViewModel.orderItems[index][0]['qty'].toString(),
               amount: orderViewModel.orderAmount[index],
+              status: 'Pending',
             ),
           ),
         );

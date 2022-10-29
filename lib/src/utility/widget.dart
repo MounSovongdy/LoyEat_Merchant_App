@@ -4,12 +4,22 @@ import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 import '../constants/constants.dart';
 
 class AppWidget {
-  static Widget product({ required BuildContext context, required VoidCallback onTap, required String image, required String titleText, required String dateOrder, required String subTitleText, required String price}) {
+  static Widget product(
+      {required BuildContext context,
+      required VoidCallback onTap,
+      required String image,
+      required String titleText,
+      required String dateOrder,
+      required String subTitleText,
+      required String price,
+      required String status,
+      }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 80,
-        margin: const EdgeInsets.only(bottom: defaultPaddin / 2, top: defaultPaddin / 6),
+        margin: const EdgeInsets.only(
+            bottom: defaultPaddin / 2, top: defaultPaddin / 6),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: whiteColor,
@@ -69,7 +79,7 @@ class AppWidget {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.green.shade600.withOpacity(0.2),
+                      color: status == 'Disable' ? Colors.orange.shade600.withOpacity(0.2) : Colors.green.shade600.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(defaultPaddin / 2),
                     ),
                     child: Padding(
@@ -78,9 +88,9 @@ class AppWidget {
                         vertical: defaultPaddin / 6,
                       ),
                       child: Text(
-                        'Approved',
+                        status,
                         style: AppTextStyle.title2.copyWith(
-                          color: Colors.green.shade600,
+                          color: status == 'Disable' ? Colors.orange.shade600 : Colors.green.shade600,
                         ),
                       ),
                     ),
@@ -94,12 +104,23 @@ class AppWidget {
     );
   }
 
-  static Widget order({required BuildContext context, required VoidCallback onTap, required String orderId, required String orderDate, required String orderTime, required String productName, required String qty, required String amount}) {
+  static Widget order({
+    required BuildContext context,
+    required VoidCallback onTap,
+    required String orderId,
+    required String orderDate,
+    required String orderTime,
+    required String productName,
+    required String qty,
+    required String amount,
+    required String status,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         height: 80,
-        margin: const EdgeInsets.only(bottom: defaultPaddin / 6, top: defaultPaddin / 2),
+        margin: const EdgeInsets.only(
+            bottom: defaultPaddin / 6, top: defaultPaddin / 2),
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           color: whiteColor,
@@ -130,7 +151,8 @@ class AppWidget {
                     const Spacer(),
                     Text(
                       '$orderDate $orderTime',
-                      style: AppTextStyle.title2.copyWith(color: secondGrayColor),
+                      style:
+                          AppTextStyle.title2.copyWith(color: secondGrayColor),
                     ),
                   ],
                 ),
@@ -145,7 +167,7 @@ class AppWidget {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Colors.orange.shade600.withOpacity(0.2),
+                      color: status == 'Pending' ? Colors.orange.shade600.withOpacity(0.2) : Colors.green.shade600.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(defaultPaddin / 2),
                     ),
                     child: Padding(
@@ -154,9 +176,9 @@ class AppWidget {
                         vertical: defaultPaddin / 6,
                       ),
                       child: Text(
-                        'Pending',
+                        status,
                         style: AppTextStyle.title2.copyWith(
-                          color: Colors.orange.shade600,
+                          color: status == 'Pending' ? Colors.orange.shade600 : Colors.green.shade600 ,
                         ),
                       ),
                     ),
@@ -196,7 +218,12 @@ class AppWidget {
     );
   }
 
-  static Widget card1({required BuildContext context, required String title, required IconData icon, required int amount, Color backgroundColor = whiteColor}) {
+  static Widget card1(
+      {required BuildContext context,
+      required String title,
+      required IconData icon,
+      required int amount,
+      Color backgroundColor = whiteColor}) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.4,
       padding: const EdgeInsets.all(defaultPaddin),
@@ -224,7 +251,8 @@ class AppWidget {
           ),
           Text(
             amount.toString(),
-            style: AppTextStyle.headline1.copyWith(color: whiteColor, fontSize: 24),
+            style: AppTextStyle.headline1
+                .copyWith(color: whiteColor, fontSize: 24),
           )
         ],
       ),
@@ -239,7 +267,7 @@ class AppWidget {
 
   static Widget get noOrderData {
     return Center(
-      child: Text('No Order Yet!', style:  AppTextStyle.headline1),
+      child: Text('No Order Yet!', style: AppTextStyle.headline1),
     );
   }
 
