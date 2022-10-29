@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 
 import '../menu/menu_view_model.dart';
@@ -31,8 +33,14 @@ class AccountViewModel extends GetxController {
     });
   }
 
+  void logout(BuildContext context) {
+    signOut();
+    Phoenix.rebirth(context);
+  }
+
   Future<StartUpScreen> signOut() async {
     await FirebaseAuth.instance.signOut();
+
     return const StartUpScreen();
   }
 }

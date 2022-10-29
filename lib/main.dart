@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/constants/constants.dart';
 import 'package:loy_eat_merchant_app/src/screens/startup/start_up_screen.dart';
@@ -13,7 +14,7 @@ Future<void> main() async {
       home: getHome,
       debugShowCheckedModeBanner: false,
   );
-  runApp(app);
+  runApp(Phoenix(child: app));
 }
 
 Widget get getHome {

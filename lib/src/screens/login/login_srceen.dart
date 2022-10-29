@@ -69,9 +69,10 @@ class LoginScreen extends StatelessWidget {
               Form(
                 key: loginViewModel.formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Obx(
-                      (() => loginViewModel.otpPassword.value
+                      (() => loginViewModel.showOtpText.value
                           ? const SizedBox()
                           : AppForm.input(
                               hintText: 'Phone Number',
@@ -85,22 +86,34 @@ class LoginScreen extends StatelessWidget {
                               },
                             )),
                     ),
-                    Obx((() => loginViewModel.otpPassword.value
+                    Obx((() => loginViewModel.showOtpText.value
                         ? AppForm.input(
                             hintText: 'OTP Code',
                             controller: loginViewModel.otpCode,
                             inputType: TextInputType.number,
                           )
                         : const SizedBox())),
+                    Obx((() => loginViewModel.phoneCorrect.value
+                        ? const SizedBox()
+                        : const Text('Phone number is not correctly..', style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.red,
+                    )))),
+                    Obx((() => loginViewModel.otpCorrect.value
+                        ? const SizedBox()
+                        : const Text('Otp code is not correctly..', style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.red,
+                    )))),
                   ],
                 ),
               ),
               const SizedBox(
                 height: defaultPaddin * 2,
               ),
-              Obx((() => loginViewModel.otpPassword.value ? const SizedBox() : AppButton.button1('Next', onTap: () => loginViewModel.buttonNextClick(), rightIcon: Icons.navigate_next)),),
+              Obx((() => loginViewModel.showOtpText.value ? const SizedBox() : AppButton.button1('Next', onTap: () => loginViewModel.buttonNextClick(), rightIcon: Icons.navigate_next)),),
               Obx(
-                (() => loginViewModel.otpPassword.value
+                (() => loginViewModel.showOtpText.value
                     ? AppButton.button1('Submit', onTap: () => loginViewModel.buttonSubmitClick(), rightIcon: Icons.verified,)
                     : const SizedBox()),
               ),
