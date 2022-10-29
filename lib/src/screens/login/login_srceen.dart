@@ -98,10 +98,10 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(
                 height: defaultPaddin * 2,
               ),
-              Obx((() => loginViewModel.otpPassword.value ? const SizedBox() : AppButton.button1('Next', onTap: () => loginViewModel.buttonClick(), rightIcon: Icons.navigate_next)),),
+              Obx((() => loginViewModel.otpPassword.value ? const SizedBox() : AppButton.button1('Next', onTap: () => loginViewModel.buttonNextClick(), rightIcon: Icons.navigate_next)),),
               Obx(
                 (() => loginViewModel.otpPassword.value
-                    ? AppButton.button1('Submit', onTap: () => loginViewModel.buttonClick(), rightIcon: Icons.verified,)
+                    ? AppButton.button1('Submit', onTap: () => loginViewModel.buttonSubmitClick(), rightIcon: Icons.verified,)
                     : const SizedBox()),
               ),
             ],

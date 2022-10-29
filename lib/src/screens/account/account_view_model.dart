@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../menu/menu_view_model.dart';
+import '../startup/start_up_screen.dart';
 
 class AccountViewModel extends GetxController {
   final menuViewModel = Get.put(MenuViewModel());
@@ -27,5 +29,10 @@ class AccountViewModel extends GetxController {
         merchantImage = data.data()['image'];
       }
     });
+  }
+
+  Future<StartUpScreen> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    return const StartUpScreen();
   }
 }

@@ -18,7 +18,7 @@ Future<void> main() async {
 
 Widget get getHome {
   Timer(
-    const Duration(seconds: 2),
+    const Duration(seconds: 3),
         () => Navigator.of(Get.context!).pushReplacement(
       MaterialPageRoute(
         builder: (BuildContext context) => const StartUpScreen(),

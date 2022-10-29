@@ -214,7 +214,7 @@ class AccountScreen extends StatelessWidget {
           const SizedBox(
             height: defaultPaddin * 4,
           ),
-          AppButton.button1('Log Out', onTap: () {}, leftIcon: Icons.logout),
+          AppButton.button1('Log Out', onTap: () => accountViewModel.signOut(), leftIcon: Icons.logout),
         ],
       ),
     );

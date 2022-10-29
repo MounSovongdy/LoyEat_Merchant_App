@@ -32,29 +32,4 @@ class StartUpScreen extends StatelessWidget {
       ),
     );
   }
-
-  // Widget checkUser(BuildContext context) {
-  //   Timer(const Duration(seconds: 2), () => StreamBuilder<User?>(
-  //     stream: FirebaseAuth.instance.authStateChanges(),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return const Center(
-  //           child: Image(image: AssetImage('assets/image/logo_merchant.png')),
-  //         );
-  //       }
-  //       else if (snapshot.hasError) {
-  //         return const Center(child: Text('Something went wrong...'));
-  //       }
-  //       else if (snapshot.hasData) {
-  //         return BottomNavigationBarExample(index: 0);
-  //       }
-  //       else {
-  //         return LoginScreen();
-  //       }
-  //     },
-  //   ));
-  //   return const Center(
-  //     child: Image(image: AssetImage('assets/image/logo_merchant.png')),
-  //   );
-  // }
 }
