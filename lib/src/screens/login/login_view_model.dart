@@ -84,4 +84,5 @@ class LoginViewModel extends GetxController{
     }
   }
 
+
 }

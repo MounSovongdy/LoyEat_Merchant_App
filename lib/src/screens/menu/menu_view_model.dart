@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -8,9 +9,9 @@ import '../../../models/remote_data.dart';
 class MenuViewModel extends GetxController {
   final formKey = GlobalKey<FormState>();
   final productCollection = FirebaseFirestore.instance.collection('products');
+  final merchantCollection = FirebaseFirestore.instance.collection('merchants');
 
-  final _productData =
-      RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
+  final _productData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get productData => _productData.value;
 
   final title = TextEditingController();
@@ -19,7 +20,7 @@ class MenuViewModel extends GetxController {
   final image = TextEditingController();
 
   var selectedIndex = 0.obs;
-  var merchantId = '7'.obs;
+  var merchantId = ''.obs;
   var currentDate = ''.obs;
   var lastProductId = 0;
 
@@ -34,11 +35,28 @@ class MenuViewModel extends GetxController {
   void onInit() {
     super.onInit();
     getCurrentDate();
-    getLastProId();
-    getMerchantProduct();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    final num = user?.phoneNumber.toString();
+    debugPrint('phoneNumber merchant : $num');
+
+    final merchant = await merchantCollection.where('tel', isEqualTo: num.toString()).get();
+    if (merchant.docs.isNotEmpty) {
+      for (var data in merchant.docs) {
+        var id = data.data()['merchant_id'];
+        merchantId.value = id.toString();
+      }
+      getLastProId();
+      getMerchantProduct();
+    }
   }
 
   void getMerchantProduct() {
+    debugPrint('merchant_id : ${merchantId.value}');
+
     final product = productCollection
         .where('merchant_id', isEqualTo: merchantId.value)
         .snapshots();

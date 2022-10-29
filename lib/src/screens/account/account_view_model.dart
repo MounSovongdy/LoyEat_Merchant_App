@@ -18,7 +18,22 @@ class AccountViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getMerchantName();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    final num = user?.phoneNumber.toString();
+    debugPrint('phoneNumber merchant : $num');
+
+    final merchant = await merchantCollection.where('tel', isEqualTo: num.toString()).get();
+    if (merchant.docs.isNotEmpty) {
+      for (var data in merchant.docs) {
+        var id = data.data()['merchant_id'];
+        menuViewModel.merchantId.value = id.toString();
+      }
+      getMerchantName();
+    }
   }
 
   void getMerchantName() {

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -7,9 +8,9 @@ import '../menu/menu_view_model.dart';
 
 class OrderViewModel extends GetxController {
   final orderCollection = FirebaseFirestore.instance.collection('orders');
-  final orderDetailCollection =
-      FirebaseFirestore.instance.collection('orders_detail');
+  final orderDetailCollection = FirebaseFirestore.instance.collection('orders_detail');
   final productCollection = FirebaseFirestore.instance.collection('products');
+  final merchantCollection  = FirebaseFirestore.instance.collection('merchants');
 
   final menuViewModel = Get.put(MenuViewModel());
 
@@ -42,10 +43,24 @@ class OrderViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getCurrentUser();
     getCurrentDate();
-    getNewOrder();
-    getAcceptedNumber();
-    getAllOrderToday();
+  }
+
+  void getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    final num = user?.phoneNumber.toString();
+
+    final merchant = await merchantCollection.where('tel', isEqualTo: num.toString()).get();
+    if (merchant.docs.isNotEmpty) {
+      for (var data in merchant.docs) {
+        var id = data.data()['merchant_id'];
+        menuViewModel.merchantId.value = id.toString();
+      }
+      getNewOrder();
+      getAcceptedNumber();
+      getAllOrderToday();
+    }
   }
 
   void getCurrentDate() {

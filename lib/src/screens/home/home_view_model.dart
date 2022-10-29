@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/screens/menu/menu_view_model.dart';
 
@@ -14,6 +15,12 @@ class HomeViewModel extends GetxController {
 
   final _toggleData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get toggleData => _toggleData.value;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getCurrentUser();
+  }
 
   void getToggleStatus() {
      merchantCollection.where('merchant_id', isEqualTo: menuViewModel.merchantId.value).get().then((value) {
@@ -45,9 +52,17 @@ class HomeViewModel extends GetxController {
     }
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    getToggleStatus();
+  void getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    final num = user?.phoneNumber.toString();
+
+    final merchant = await merchantCollection.where('tel', isEqualTo: num.toString()).get();
+    if (merchant.docs.isNotEmpty) {
+      for (var data in merchant.docs) {
+        var id = data.data()['merchant_id'];
+        menuViewModel.merchantId.value = id.toString();
+      }
+      getToggleStatus();
+    }
   }
 }
