@@ -97,6 +97,7 @@ class LoginViewModel extends GetxController{
         String id = data.data()['merchant_id'];
         cacheHelper.writeCache(id);
         String merchant = await cacheHelper.readCache();
+        debugPrint('merchant: $merchant');
         loadPage(merchant);
       }
     }
