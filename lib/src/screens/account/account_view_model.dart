@@ -7,7 +7,6 @@ import 'package:loy_eat_merchant_app/src/constants/cache_helper.dart';
 import '../startup/start_up_screen.dart';
 
 class AccountViewModel extends GetxController {
-
   final merchantCollection = FirebaseFirestore.instance.collection('merchants');
 
   var merchantId = ''.obs;
@@ -30,7 +29,9 @@ class AccountViewModel extends GetxController {
   }
 
   void getMerchantName() {
-    final merchant = merchantCollection.where('merchant_id', isEqualTo: merchantId.value).snapshots();
+    final merchant = merchantCollection
+        .where('merchant_id', isEqualTo: merchantId.value)
+        .snapshots();
     merchant.listen((result) {
       for (var data in result.docs) {
         merchantName = data.data()['merchant_name'];

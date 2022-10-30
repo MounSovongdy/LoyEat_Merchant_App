@@ -59,6 +59,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "141243211026-emrarp7u75l41b9thrmro2165mndf4p3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loy_eat_merchant_app",
+            "certificate_hash": "9d489a5b0e8835f6eda1643f44341dd89dcbc39b"
+          }
+        },
+        {
+          "client_id": "141243211026-l821vu2hpfl1vod08on51086md1oa274.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.loy_eat_merchant_app",
+            "certificate_hash": "10f1f6c1dfd7e82dc404187b5f86a6bda43a26cb"
+          }
+        },
+        {
           "client_id": "141243211026-v34i9v4ng9fop70b8bsgm4j7dpbialb0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

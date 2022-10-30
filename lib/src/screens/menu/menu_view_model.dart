@@ -56,7 +56,6 @@ class MenuViewModel extends GetxController {
   }
 
   void getMerchantProduct() {
-    debugPrint('getMerchantProduct');
     final product = productCollection.where('merchant_id', isEqualTo: merchantId.value).snapshots();
     product.listen((result) {
       clearProductList();
@@ -87,7 +86,6 @@ class MenuViewModel extends GetxController {
   }
 
   void getLastProId() {
-    debugPrint('getLastProId');
     final product = productCollection.snapshots();
     product.listen((data) {
       if (data.docs.isNotEmpty) {

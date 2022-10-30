@@ -40,7 +40,6 @@ class OrderViewModel extends GetxController {
   void onInit() {
     super.onInit();
     readMerchantId();
-    getCurrentDate();
   }
 
   void readMerchantId() async {
@@ -48,6 +47,7 @@ class OrderViewModel extends GetxController {
     final cacheHelper = CacheHelper();
     merchantId.value = await cacheHelper.readCache();
     debugPrint('merchantId.value order = ${merchantId.value}');
+    getCurrentDate();
     getNewOrder();
     getAcceptedNumber();
     getAllOrderToday();
@@ -61,7 +61,6 @@ class OrderViewModel extends GetxController {
   }
 
   void getAcceptedNumber() {
-    debugPrint('getAcceptedNumber');
     final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('date', isEqualTo: currentDate).where('status', isEqualTo: 'Accepted').snapshots();
     order.listen((result) {
       saleToday.value = 0.00;
@@ -114,7 +113,6 @@ class OrderViewModel extends GetxController {
   }
 
   void getNewOrder() {
-    debugPrint('getNewOrder');
     final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('driver_id', isEqualTo: '').where('date', isEqualTo: currentDate).where('status', isEqualTo: 'Pending').snapshots();
     order.listen((result) async {
       _orderData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);

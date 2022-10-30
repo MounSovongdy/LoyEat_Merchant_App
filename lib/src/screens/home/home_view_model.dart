@@ -31,7 +31,6 @@ class HomeViewModel extends GetxController {
   }
 
   void getToggleStatus() {
-    debugPrint('getToggleStatus');
     merchantCollection.where('merchant_id', isEqualTo: merchantId.value).get().then((value) {
        for (var data in value.docs) {
          toggleStatus.value = data.data()['is_available'];
