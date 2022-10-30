@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loy_eat_merchant_app/src/constants/cache_helper.dart';
 
 import '../../utility/bottom_nav_bar_widget.dart';
 
 class LoginViewModel extends GetxController{
+
   var showOtpText  = false.obs;
   var phoneCorrect = true.obs;
   var otpCorrect = true.obs;
@@ -15,9 +17,11 @@ class LoginViewModel extends GetxController{
   final formKey = GlobalKey<FormState>();
 
   FirebaseAuth auth = FirebaseAuth.instance;
+
   var merchantNumber = ''.obs;
   var verificationIDReceived = '';
 
+  final cacheHelper = CacheHelper();
   final merchantCollection = FirebaseFirestore.instance.collection('merchants');
 
   void buttonNextClick () {
@@ -54,7 +58,9 @@ class LoginViewModel extends GetxController{
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: '+855${phoneNumber.text}',
       timeout: const Duration(seconds: 60),
-      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationCompleted: (PhoneAuthCredential credential) {
+        auth.signInWithCredential(credential).then((value) => debugPrint('You are logged in successfully'));
+      },
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {
           debugPrint('The provided phone number is not valid.');
@@ -69,17 +75,34 @@ class LoginViewModel extends GetxController{
   void verifyOTP() async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationIDReceived, smsCode: otpCode.text);
-      await auth.signInWithCredential(credential);
-      otpCorrect.value = true;
-      Navigator.push(
-        Get.context!,
-        MaterialPageRoute(builder: (context) => BottomNavigationBarExample(index: 0)),
-      );
+      await auth.signInWithCredential(credential).then((value) {
+        otpCorrect.value = true;
+        getCurrentUser();
+      });
     } catch (e) {
       debugPrint('your otp number not correctly.');
       otpCorrect.value = false;
     }
   }
 
+  void getCurrentUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    final num = user?.phoneNumber.toString();
+    final cacheHelper = CacheHelper();
 
+    debugPrint('num = $num');
+    final merchant = await merchantCollection.where('tel', isEqualTo: num.toString()).get();
+    if (merchant.docs.isNotEmpty)  {
+      for (var data in merchant.docs) {
+        String id = data.data()['merchant_id'];
+        cacheHelper.writeCache(id);
+        String merchant = await cacheHelper.readCache();
+        loadPage(merchant);
+      }
+    }
+  }
+
+  void loadPage(String name) {
+    Get.offAll(() => BottomNavigationBarExample(index: 0), arguments: {'merchant': name});
+  }
 }

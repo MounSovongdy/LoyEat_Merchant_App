@@ -20,18 +20,33 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryGrayColor,
       appBar: getAppBar(context),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
-        children: [
-          const SizedBox(
-            height: defaultPaddin,
-          ),
-          getStats(context),
-          const SizedBox(
-            height: defaultPaddin,
-          ),
-          getNewOrder(context),
-        ],
+      body: FutureBuilder(
+        future: AppWidget.wait3SecAndLoadData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else if (snapshot.hasData) {
+            return ListView(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
+              children: [
+                const SizedBox(
+                  height: defaultPaddin,
+                ),
+                getStats(context),
+                const SizedBox(
+                  height: defaultPaddin,
+                ),
+                getNewOrder(context),
+              ],
+            );
+          } else {
+            return Container(
+              height: MediaQuery.of(context).size.height - 55,
+              alignment: Alignment.center,
+              child: const CircularProgressIndicator(color: Colors.red),
+            );
+          }
+        },
       ),
     );
   }

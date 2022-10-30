@@ -1,15 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:loy_eat_merchant_app/src/constants/cache_helper.dart';
 import 'package:loy_eat_merchant_app/src/screens/message/message_screen.dart';
 import '../../../models/remote_data.dart';
 
 class MenuViewModel extends GetxController {
   final formKey = GlobalKey<FormState>();
+
   final productCollection = FirebaseFirestore.instance.collection('products');
-  final merchantCollection = FirebaseFirestore.instance.collection('merchants');
 
   final _productData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get productData => _productData.value;
@@ -30,38 +30,34 @@ class MenuViewModel extends GetxController {
   var arrayProductDateOrder = [];
   var arrayProductSubTitle = [];
   var arrayProductPrice = [];
+  var arrayProductStatus = [];
 
   @override
   void onInit() {
     super.onInit();
-    getCurrentDate();
-    getCurrentUser();
-    getLastProId();
-    getMerchantProduct();
+    readMerchantId();
   }
 
-  void getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    final num = user?.phoneNumber.toString();
-    debugPrint('phoneNumber merchant : $num');
+  void readMerchantId() async {
+    merchantId.value = '';
+    final cacheHelper = CacheHelper();
+    merchantId.value = await cacheHelper.readCache();
+    debugPrint('merchantId.value menu = ${merchantId.value}');
+    getCurrentDate();
+    getMerchantProduct();
+    getLastProId();
+  }
 
-    final merchant = await merchantCollection.where('tel', isEqualTo: num.toString()).get();
-    if (merchant.docs.isNotEmpty) {
-      for (var data in merchant.docs) {
-        var id = data.data()['merchant_id'];
-        merchantId.value = id.toString();
-      }
-      getLastProId();
-      getMerchantProduct();
-    }
+  void getCurrentDate() {
+    var now = DateTime.now();
+    var format = DateFormat('dd-MMM-yy');
+
+    currentDate.value = format.format(now);
   }
 
   void getMerchantProduct() {
-    debugPrint('merchant_id : ${merchantId.value}');
-
-    final product = productCollection
-        .where('merchant_id', isEqualTo: merchantId.value)
-        .snapshots();
+    debugPrint('getMerchantProduct');
+    final product = productCollection.where('merchant_id', isEqualTo: merchantId.value).snapshots();
     product.listen((result) {
       clearProductList();
 
@@ -73,6 +69,7 @@ class MenuViewModel extends GetxController {
           var date = data.data()['create_at'];
           var subTitle = data.data()['detail'];
           var price = data.data()['price'];
+          var status = data.data()['status'];
 
           arrayProductId.add(id);
           arrayProductImage.add(image);
@@ -80,10 +77,26 @@ class MenuViewModel extends GetxController {
           arrayProductDateOrder.add(date);
           arrayProductSubTitle.add(subTitle);
           arrayProductPrice.add(price);
+          arrayProductStatus.add(status);
 
           _productData.value =
               RemoteData<bool>(status: RemoteDataStatus.success, data: true);
         }
+      }
+    });
+  }
+
+  void getLastProId() {
+    debugPrint('getLastProId');
+    final product = productCollection.snapshots();
+    product.listen((data) {
+      if (data.docs.isNotEmpty) {
+        var tempList = [];
+        for (var result in data.docs) {
+          int id = int.parse(result.data()['product_id'] ?? '0');
+          tempList.add(id);
+        }
+        lastProductId = tempList.reduce((curr, next) => curr > next ? curr : next) + 1;
       }
     });
   }
@@ -111,26 +124,25 @@ class MenuViewModel extends GetxController {
     }
   }
 
-  void getCurrentDate() {
-    var now = DateTime.now();
-    var format = DateFormat('dd-MMM-yy');
+  void updateStatusProduct(bool status, String id) {
+    if (status == true) {
+      productCollection.where('product_id', isEqualTo: id).get().then((value) {
+        for (var data in value.docs) {
+          var docId = data.id;
 
-    currentDate.value = format.format(now);
-  }
-
-  void getLastProId() {
-    final product = productCollection.snapshots();
-    product.listen((data) {
-      if (data.docs.isNotEmpty) {
-        var tempList = [];
-        for (var result in data.docs) {
-          int id = int.parse(result.data()['product_id'] ?? '0');
-          tempList.add(id);
+          productCollection.doc(docId).update({'status': true});
         }
-        lastProductId = tempList.reduce((curr, next) => curr > next ? curr : next) + 1;
-        debugPrint('$lastProductId');
-      }
-    });
+      });
+    }
+    if (status == false) {
+      productCollection.where('product_id', isEqualTo: id).get().then((value) {
+        for (var data in value.docs) {
+          var docId = data.id;
+
+          productCollection.doc(docId).update({'status': false});
+        }
+      });
+    }
   }
 
   void clearProductList() {
@@ -140,6 +152,7 @@ class MenuViewModel extends GetxController {
     arrayProductDateOrder.clear();
     arrayProductSubTitle.clear();
     arrayProductPrice.clear();
+    arrayProductStatus.clear();
   }
 
   void clearTextField() {

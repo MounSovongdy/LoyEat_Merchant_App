@@ -1,24 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:loy_eat_merchant_app/src/constants/cache_helper.dart';
 import '../../../models/remote_data.dart';
-import '../menu/menu_view_model.dart';
 
 class OrderViewModel extends GetxController {
+
   final orderCollection = FirebaseFirestore.instance.collection('orders');
   final orderDetailCollection = FirebaseFirestore.instance.collection('orders_detail');
-  final productCollection = FirebaseFirestore.instance.collection('products');
-  final merchantCollection  = FirebaseFirestore.instance.collection('merchants');
 
-  final menuViewModel = Get.put(MenuViewModel());
-
-  final _orderData =
-      RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
+  final _orderData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get orderData => _orderData.value;
-  final _pendingData =
-      RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
+  final _pendingData = RemoteData<bool>(status: RemoteDataStatus.processing, data: null).obs;
   RemoteData<bool> get pendingData => _pendingData.value;
 
   var selectedIndex = 0.obs;
@@ -40,30 +34,23 @@ class OrderViewModel extends GetxController {
   var tempOrderAmount = '';
   var tempOrder = [];
 
+  var merchantId = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
-    getCurrentUser();
+    readMerchantId();
     getCurrentDate();
+  }
+
+  void readMerchantId() async {
+    merchantId.value = '';
+    final cacheHelper = CacheHelper();
+    merchantId.value = await cacheHelper.readCache();
+    debugPrint('merchantId.value order = ${merchantId.value}');
     getNewOrder();
     getAcceptedNumber();
     getAllOrderToday();
-  }
-
-  void getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    final num = user?.phoneNumber.toString();
-
-    final merchant = await merchantCollection.where('tel', isEqualTo: num.toString()).get();
-    if (merchant.docs.isNotEmpty) {
-      for (var data in merchant.docs) {
-        var id = data.data()['merchant_id'];
-        menuViewModel.merchantId.value = id.toString();
-      }
-      getNewOrder();
-      getAcceptedNumber();
-      getAllOrderToday();
-    }
   }
 
   void getCurrentDate() {
@@ -74,15 +61,13 @@ class OrderViewModel extends GetxController {
   }
 
   void getAcceptedNumber() {
-    final order = orderCollection
-        .where('merchant_id', isEqualTo: menuViewModel.merchantId.value)
-        .where('date', isEqualTo: currentDate)
-        .where('status', isEqualTo: 'Accepted')
-        .snapshots();
+    debugPrint('getAcceptedNumber');
+    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('date', isEqualTo: currentDate).where('status', isEqualTo: 'Accepted').snapshots();
     order.listen((result) {
-      _pendingData.value =
-          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
       saleToday.value = 0.00;
+
+      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+
       if (result.docs.isNotEmpty) {
         for (var data in result.docs) {
           var id = data.data()['order_id'];
@@ -102,47 +87,38 @@ class OrderViewModel extends GetxController {
             }
           });
         }
-      } else {
+      }
+      else {
         acceptedNumber.value = 0;
         saleToday.value = 0.00;
+        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+      }
+
+    });
+  }
+
+  void getAllOrderToday() {
+    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('date', isEqualTo: currentDate).snapshots();
+    order.listen((result) {
+      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+
+      if (result.docs.isNotEmpty) {
+        orderToday.value = result.docs.length;
+        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+      }
+      else {
+        orderToday.value = 0;
         _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
       }
     });
   }
 
-  void getAllOrderToday() {
-    final order = orderCollection
-        .where('merchant_id', isEqualTo: menuViewModel.merchantId.value)
-        .where('date', isEqualTo: currentDate)
-        .snapshots();
-    order.listen((result) {
-      _pendingData.value =
-          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
-
-      if (result.docs.isNotEmpty) {
-        orderToday.value = result.docs.length;
-        _pendingData.value =
-            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
-      } else {
-        orderToday.value = 0;
-        _pendingData.value =
-            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
-      }
-    });
-  }
-
   void getNewOrder() {
-    final order = orderCollection
-        .where('merchant_id', isEqualTo: menuViewModel.merchantId.value)
-        .where('driver_id', isEqualTo: '')
-        .where('date', isEqualTo: currentDate)
-        .where('status', isEqualTo: 'Pending')
-        .snapshots();
+    debugPrint('getNewOrder');
+    final order = orderCollection.where('merchant_id', isEqualTo: merchantId.value).where('driver_id', isEqualTo: '').where('date', isEqualTo: currentDate).where('status', isEqualTo: 'Pending').snapshots();
     order.listen((result) async {
-      _orderData.value =
-          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
-      _pendingData.value =
-          RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+      _orderData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
+      _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.processing, data: null);
 
       clearList();
 
@@ -154,9 +130,7 @@ class OrderViewModel extends GetxController {
           var tempOrderDate = result.docs[i]['date'];
           var tempOrderTime = result.docs[i]['time'];
 
-          final orderDetail = orderDetailCollection
-              .where('order_id', isEqualTo: tempOrderID)
-              .snapshots();
+          final orderDetail = orderDetailCollection.where('order_id', isEqualTo: tempOrderID).snapshots();
           orderDetail.listen((e) {
             if (e.docs.isNotEmpty) {
               for (var data in e.docs) {
@@ -188,10 +162,8 @@ class OrderViewModel extends GetxController {
       } else {
         clearList();
         pendingNumber.value = 0;
-        _pendingData.value =
-            RemoteData<bool>(status: RemoteDataStatus.success, data: true);
-        _orderData.value =
-            RemoteData<bool>(status: RemoteDataStatus.none, data: null);
+        _pendingData.value = RemoteData<bool>(status: RemoteDataStatus.success, data: true);
+        _orderData.value = RemoteData<bool>(status: RemoteDataStatus.none, data: null);
       }
     });
   }
@@ -209,12 +181,9 @@ class OrderViewModel extends GetxController {
   }
 
   void buttonAccept() {
-    final order = orderCollection
-        .where('order_id', isEqualTo: orderId[selectedIndex.value])
-        .snapshots();
+    final order = orderCollection.where('order_id', isEqualTo: orderId[selectedIndex.value]).snapshots();
     order.listen((result) {
       if (result.docs.isNotEmpty) {
-        debugPrint('order id = ${orderId[selectedIndex.value]}');
         for (var element in result.docs) {
           var docId = element.id;
 
@@ -227,12 +196,9 @@ class OrderViewModel extends GetxController {
   }
 
   void buttonRejected() {
-    final order = orderCollection
-        .where('order_id', isEqualTo: orderId[selectedIndex.value])
-        .snapshots();
+    final order = orderCollection.where('order_id', isEqualTo: orderId[selectedIndex.value]).snapshots();
     order.listen((result) {
       if (result.docs.isNotEmpty) {
-        debugPrint('order id = ${orderId[selectedIndex.value]}');
         for (var element in result.docs) {
           var docId = element.id;
 

@@ -19,6 +19,9 @@ class AppForm {
         validator: validator,
         keyboardType: inputType,
         decoration: InputDecoration(
+          hintStyle: TextStyle(
+            color: Colors.black.withOpacity(0.3),
+          ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(13),
             ),
@@ -26,7 +29,8 @@ class AppForm {
               borderRadius: BorderRadius.circular(13),
               borderSide: const BorderSide(color: primaryColor),
             ),
-            hintText: hintText),
+            hintText: hintText,
+        ),
       ),
     );
   }

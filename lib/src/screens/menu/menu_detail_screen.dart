@@ -75,22 +75,20 @@ class MenuDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            buttom(
-              context: context,
-              status: '',
-            ),
+            buttonEnable(context: context),
           ],
         );
       }
     });
   }
 
-  Widget columnForm(
-      {required String id,
-      required String date,
-      required String title,
-      required String subTitle,
-      required String price}) {
+  Widget columnForm({
+    required String id,
+    required String date,
+    required String title,
+    required String subTitle,
+    required String price,
+  }) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -200,9 +198,8 @@ class MenuDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget buttom({
+  Widget buttonEnable({
     required BuildContext context,
-    required String status,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
@@ -216,12 +213,8 @@ class MenuDetailScreen extends StatelessWidget {
               backgroundColor: secondGrayColor,
               leftIcon: Icons.close,
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => BottomNavigationBarExample(index: 0),
-                //   ),
-                // );
+                menuViewModel.updateStatusProduct(false, menuViewModel.arrayProductId[menuViewModel.selectedIndex.value]);
+                Get.back();
               },
             ),
           ),
@@ -231,13 +224,8 @@ class MenuDetailScreen extends StatelessWidget {
               'Enable',
               leftIcon: Icons.done,
               onTap: () {
-                // orderViewModel.buttonAccept();
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => BottomNavigationBarExample(index: 0),
-                //   ),
-                // );
+                menuViewModel.updateStatusProduct(true, menuViewModel.arrayProductId[menuViewModel.selectedIndex.value]);
+                Get.back();
               },
             ),
           ),

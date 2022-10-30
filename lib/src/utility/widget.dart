@@ -1,19 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:loy_eat_merchant_app/src/utility/text_style.dart';
 
 import '../constants/constants.dart';
 
 class AppWidget {
-  static Widget product(
-      {required BuildContext context,
-      required VoidCallback onTap,
-      required String image,
-      required String titleText,
-      required String dateOrder,
-      required String subTitleText,
-      required String price,
-      required String status,
-      }) {
+  static Widget product({
+    required BuildContext context,
+    required VoidCallback onTap,
+    required String image,
+    required String titleText,
+    required String dateOrder,
+    required String subTitleText,
+    required String price,
+    required bool status,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -79,7 +81,7 @@ class AppWidget {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: status == 'Disable' ? Colors.orange.shade600.withOpacity(0.2) : Colors.green.shade600.withOpacity(0.2),
+                      color: status == false ? Colors.orange.shade600.withOpacity(0.2) : Colors.green.shade600.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(defaultPaddin / 2),
                     ),
                     child: Padding(
@@ -88,9 +90,9 @@ class AppWidget {
                         vertical: defaultPaddin / 6,
                       ),
                       child: Text(
-                        status,
+                        status == true ? 'Enable' : 'Disable',
                         style: AppTextStyle.title2.copyWith(
-                          color: status == 'Disable' ? Colors.orange.shade600 : Colors.green.shade600,
+                          color: status == false ? Colors.orange.shade600 : Colors.green.shade600,
                         ),
                       ),
                     ),
@@ -218,12 +220,13 @@ class AppWidget {
     );
   }
 
-  static Widget card1(
-      {required BuildContext context,
-      required String title,
-      required IconData icon,
-      required int amount,
-      Color backgroundColor = whiteColor}) {
+  static Widget card1({
+    required BuildContext context,
+    required String title,
+    required IconData icon,
+    required int amount,
+    Color backgroundColor = whiteColor,
+  }) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.4,
       padding: const EdgeInsets.all(defaultPaddin),
@@ -273,5 +276,10 @@ class AppWidget {
 
   static Widget get error {
     return const Text('Error while loading data from server.');
+  }
+
+  static Future<Widget> wait3SecAndLoadData() async {
+    await Future.delayed(const Duration(seconds: 3));
+    return Container();
   }
 }

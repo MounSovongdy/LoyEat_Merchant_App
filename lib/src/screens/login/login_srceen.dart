@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryGrayColor,
+      backgroundColor: whiteColor,
       body: SingleChildScrollView(child: getLoginForm(context)),
     );
   }

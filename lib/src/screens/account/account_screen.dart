@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/screens/account/account_view_model.dart';
+import 'package:loy_eat_merchant_app/src/utility/widget.dart';
 import '../../constants/constants.dart';
 import '../../utility/button.dart';
 import '../../utility/text_style.dart';
@@ -15,7 +16,22 @@ class AccountScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: primaryGrayColor,
       appBar: getAppBar(context),
-      body: getProduct(context),
+      body: FutureBuilder(
+        future: AppWidget.wait3SecAndLoadData(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          } else if (snapshot.hasData) {
+            return getProduct(context);
+          } else {
+            return Container(
+              height: MediaQuery.of(context).size.height - 55,
+              alignment: Alignment.center,
+              child: const CircularProgressIndicator(color: Colors.red),
+            );
+          }
+        },
+      ),
     );
   }
 

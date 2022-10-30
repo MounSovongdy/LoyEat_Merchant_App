@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/constants/constants.dart';
 import 'package:loy_eat_merchant_app/src/screens/account/account_screen.dart';
+import 'package:loy_eat_merchant_app/src/screens/account/account_view_model.dart';
+import 'package:loy_eat_merchant_app/src/screens/home/home_view_model.dart';
 import 'package:loy_eat_merchant_app/src/screens/menu/menu_screen.dart';
+import 'package:loy_eat_merchant_app/src/screens/menu/menu_view_model.dart';
 import 'package:loy_eat_merchant_app/src/screens/order/order_screen.dart';
+import 'package:loy_eat_merchant_app/src/screens/order/order_view_model.dart';
 
 import '../screens/home/home_screen.dart';
 
@@ -18,6 +23,21 @@ class BottomNavigationBarExample extends StatefulWidget {
 
 class _BottomNavigationBarExampleState extends State<BottomNavigationBarExample> {
 
+
+  final homeViewModel = HomeViewModel();
+  final menuViewModel = MenuViewModel();
+  final orderViewModel = OrderViewModel();
+  final accountViewModel = AccountViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+
+    homeViewModel.merchantId.value = Get.arguments['merchant'];
+    menuViewModel.merchantId.value  = Get.arguments['merchant'];
+    orderViewModel.merchantId.value  = Get.arguments['merchant'];
+    accountViewModel.merchantId.value  = Get.arguments['merchant'];
+  }
 
   @override
   Widget build(BuildContext context) {
