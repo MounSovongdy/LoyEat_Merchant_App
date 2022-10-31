@@ -71,9 +71,7 @@ class OrderViewModel extends GetxController {
         for (var data in result.docs) {
           var id = data.data()['order_id'];
 
-          final orderDetail = orderDetailCollection
-              .where('order_id', isEqualTo: id)
-              .snapshots();
+          final orderDetail = orderDetailCollection.where('order_id', isEqualTo: id).snapshots();
           orderDetail.listen((event) {
             if (event.docs.isNotEmpty) {
               for (var element in event.docs) {

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:loy_eat_merchant_app/models/remote_data.dart';
+import 'package:loy_eat_merchant_app/src/screens/accept/accepted_detail_screen.dart';
+import 'package:loy_eat_merchant_app/src/screens/accept/accepted_view_model.dart';
 import '../../constants/constants.dart';
 import '../../utility/text_style.dart';
 import '../../utility/widget.dart';
-import 'order_accepted_detail_screen.dart';
 
 class AcceptedScreen extends StatelessWidget {
-  const AcceptedScreen({Key? key}) : super(key: key);
+  AcceptedScreen({Key? key}) : super(key: key);
+
+  final acceptedViewModel = Get.put(AcceptedViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -36,31 +41,46 @@ class AcceptedScreen extends StatelessWidget {
   }
 
   Widget getOrder(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
-        itemCount: 3,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (BuildContext context, index) => AppWidget.order(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OrderAcceptedDetailScreen(),
-              ),
-            );
-          },
-          amount: '20.00',
-          orderDate: '29-Oct-22',
-          orderId: '291022001',
-          orderTime: '9:30AM',
-          productName: 'Crispy Tender Onebox',
-          context: context,
-          qty: '1',
-          status: 'Accepted',
-        ),
-      ),
-    );
+    return Obx(() {
+      final status = acceptedViewModel.orderData.status;
+      if (status == RemoteDataStatus.none) {
+        return AppWidget.noOrderData;
+      } else if (status == RemoteDataStatus.processing) {
+        return AppWidget.loading;
+      } else if (status == RemoteDataStatus.error) {
+        return AppWidget.error;
+      } else {
+        return Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: defaultPaddin),
+            itemCount: acceptedViewModel.orderId.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, index) => AppWidget.order(
+              context: context,
+              onTap: () {
+                acceptedViewModel.selectedIndex.value = index;
+
+                debugPrint('tapped: ${acceptedViewModel.orderItems[acceptedViewModel.selectedIndex.value][0]['product_name']}');
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AcceptedDetailScreen(),
+                  ),
+                );
+              },
+              orderId: acceptedViewModel.orderId[index],
+              orderDate: acceptedViewModel.orderDate[index],
+              orderTime: acceptedViewModel.orderTime[index],
+              productName: acceptedViewModel.orderItems[index][0]['product_name'].toString(),
+              qty: acceptedViewModel.orderItems[index][0]['qty'].toString(),
+              amount: acceptedViewModel.orderAmount[index],
+              status: 'Accepted',
+            ),
+          ),
+        );
+      }
+    });
   }
 }
