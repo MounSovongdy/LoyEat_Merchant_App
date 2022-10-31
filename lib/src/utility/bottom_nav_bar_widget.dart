@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:loy_eat_merchant_app/src/constants/cache_helper.dart';
 import 'package:loy_eat_merchant_app/src/constants/constants.dart';
 import 'package:loy_eat_merchant_app/src/screens/account/account_screen.dart';
@@ -23,37 +23,22 @@ class BottomNavigationBarExample extends StatefulWidget {
   State<StatefulWidget> createState() => _BottomNavigationBarExampleState();
 }
 
-class _BottomNavigationBarExampleState
-    extends State<BottomNavigationBarExample> {
+class _BottomNavigationBarExampleState extends State<BottomNavigationBarExample> {
   final cacheHelper = CacheHelper();
 
-  final homeViewModel = HomeViewModel();
-  final menuViewModel = MenuViewModel();
-  final orderViewModel = OrderViewModel();
-  final accountViewModel = AccountViewModel();
+  final homeViewModel = Get.put(HomeViewModel());
+  final menuViewModel = Get.put(MenuViewModel());
+  final orderViewModel = Get.put(OrderViewModel());
+  final accountViewModel = Get.put(AccountViewModel());
 
   final merchantCollection = FirebaseFirestore.instance.collection('merchants');
 
   @override
   void initState() {
     super.initState();
-    getCurrentUser();
+    readCacheHelper();
   }
 
-  void getCurrentUser() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    final num = user?.phoneNumber.toString();
-
-    final merchant =
-        await merchantCollection.where('tel', isEqualTo: num.toString()).get();
-    if (merchant.docs.isNotEmpty) {
-      for (var data in merchant.docs) {
-        String id = data.data()['merchant_id'];
-        cacheHelper.writeCache(id);
-        readCacheHelper();
-      }
-    }
-  }
 
   void readCacheHelper() async {
     String id = await cacheHelper.readCache();

@@ -8,6 +8,7 @@ import '../startup/start_up_screen.dart';
 
 class AccountViewModel extends GetxController {
   final merchantCollection = FirebaseFirestore.instance.collection('merchants');
+  final cacheHelper = CacheHelper();
 
   var merchantId = ''.obs;
 
@@ -43,12 +44,11 @@ class AccountViewModel extends GetxController {
   void logout(BuildContext context) {
     signOut();
     Phoenix.rebirth(context);
+    Navigator.of(Get.context!).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const StartUpScreen()), (route) => false);
   }
 
-  Future<StartUpScreen> signOut() async {
-    final cacheHelper = CacheHelper();
-    cacheHelper.removeCache();
+  Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
-    return const StartUpScreen();
+    cacheHelper.removeCache();
   }
 }
